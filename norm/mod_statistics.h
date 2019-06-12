@@ -4,7 +4,7 @@ class statistics :
 	public norm_dll::mod
 {
 public:
-	statistics(norm_dll::norm* c_state);
+    statistics(norm_dll::norm* c_state, json* config);
 	virtual ~statistics();
 	void draw_scene(void*);
 

@@ -1,10 +1,13 @@
 #pragma once
 #include "client_ver.h"
 #include "debug_socket.h"
+#include "json.h"
 #define INITGUID
 #include <d3d.h>
 
 #pragma warning(disable : 26440) // Suppress "noexcept" warning
+
+using json = nlohmann::json;
 
 namespace norm_dll {
 class norm;

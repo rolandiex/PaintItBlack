@@ -1,0 +1,15 @@
+{
+	"mods": {
+		"timestamp" : {
+			"default_on": true,
+			"format": "%H:%M"
+		},
+		"overlay_new" : {
+			"ping_default_on": false,
+			"fps_default_on": false
+		},
+		"graphics" : {
+			"vsync_default_on": false
+		}
+	}
+}

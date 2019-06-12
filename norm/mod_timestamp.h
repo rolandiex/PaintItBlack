@@ -4,7 +4,7 @@ class timestamp :
 	public norm_dll::mod
 {
 public:
-	timestamp(norm_dll::norm* c_state);
+    timestamp(norm_dll::norm* c_state, json* config);
 	virtual ~timestamp();
 	void send_msg(void**, int*, void**, void**, int*, int*);
 	void send_msg(void**, int*, int*, int*, int*, int*);
@@ -13,6 +13,7 @@ public:
 
 private:
 	int enabled = 1;
+    std::string time_format = "%H:%M:%S";
 	char msg_buf[256] = { 0 };
 };
 
