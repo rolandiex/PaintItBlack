@@ -59,7 +59,8 @@ public:
     int get_jobnextexp();
     int get_jobexp();
 	int get_skillpoints();
-	const std::string& get_name();
+	const char* get_name();
+    const char* get_cur_map();
 	const std::string& get_job_type();
 
 	template<typename T>

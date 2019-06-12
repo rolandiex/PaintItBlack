@@ -1,13 +1,13 @@
 #include "stdafx.h"
 
 #include "hook.h"
-#include "hook_session.h"
 #include "hook_gamemode.h"
+#include "hook_session.h"
 
 #include "detours.h"
 #include "norm.h"
 
-#pragma warning(disable: 26440) // Suppress "noexcept" warning
+#pragma warning(disable : 26440) // Suppress "noexcept" warning
 
 namespace norm_dll {
 static std::shared_ptr<norm_dll::norm> c_state;
@@ -18,27 +18,26 @@ int init_ping_calls = 2;
  * /goldpc
  */
 #if ((CLIENT_VER <= 20180919 && CLIENT_VER >= 20180620) || CLIENT_VER_RE == 20180621)
-int __fastcall ProxySession::proxyGetTalkType(void* this_obj, DWORD EDX, void* a2, int a3, int a4)
-{
+int __fastcall ProxySession::proxyGetTalkType(void* this_obj, DWORD EDX, void* a2, int a3, int a4){
 #elif CLIENT_VER == 20150000
-signed int __fastcall ProxySession::proxyGetTalkType(void *this_obj, DWORD EDX, char *a2, int a3, char *a4)
+signed int __fastcall ProxySession::proxyGetTalkType(void* this_obj, DWORD EDX, char* a2, int a3, char* a4)
 {
 #endif
     auto& instance = ProxySession::instance();
 
-	int cret = 0;
-	int retval = 0;
+int cret = 0;
+int retval = 0;
 
-	for (auto callback : instance.c_state->mods)
-		cret += callback->get_talk_type(reinterpret_cast<char*>(a2), &retval);
+for (auto callback : instance.c_state->mods)
+    cret += callback->get_talk_type(reinterpret_cast<char*>(a2), &retval);
 
-	if (cret == 1)
-		return retval;
+if (cret == 1)
+    return retval;
 
-	if (cret > 1)
-		instance.c_state->dbg_sock->do_send("Error: Multiple GetTalkType hooks want to return a value.");
+if (cret > 1)
+    instance.c_state->dbg_sock->do_send("Error: Multiple GetTalkType hooks want to return a value.");
 
-	return (instance.GetTalkType)(this_obj, a2, a3, a4);
+return (instance.GetTalkType)(this_obj, a2, a3, a4);
 }
 
 /*
@@ -49,52 +48,51 @@ signed int __fastcall ProxySession::proxyGetTalkType(void *this_obj, DWORD EDX, 
 void __fastcall ProxySession::proxyRecalcAveragePingTime(void* this_obj, DWORD EDX, unsigned long a1)
 {
     auto& instance = ProxySession::instance();
-	instance.c_state->dbg_sock->do_send("CSession__RecalcAveragePingTime called!");
+    instance.c_state->dbg_sock->do_send("CSession__RecalcAveragePingTime called!");
 
-	char buf[64];
-	sprintf_s(buf, "Arg: %lu", a1);
-	instance.c_state->dbg_sock->do_send(buf);
+    char buf[64];
+    sprintf_s(buf, "Arg: %lu", a1);
+    instance.c_state->dbg_sock->do_send(buf);
 
-	print_time(instance.c_state.get());
+    print_time(instance.c_state.get());
 
-	if (init_ping_calls > 0) {
-		init_ping_calls--;
-		return;
-	}
+    if (init_ping_calls > 0) {
+        init_ping_calls--;
+        return;
+    }
 
-	if (!initialize_called())
-		(instance.RecalcAveragePingTime)(this_obj, a1);
+    if (!initialize_called())
+        (instance.RecalcAveragePingTime)(this_obj, a1);
 }
 
-void ProxySession::hook(std::shared_ptr<norm_dll::norm> state_) 
+void ProxySession::hook(std::shared_ptr<norm_dll::norm> state_)
 {
     if (hooked)
         return;
 
-	LONG err = 0;
-	int hook_count = 0;
-	char info_buf[256];
-	this->c_state = state_;
+    LONG err = 0;
+    int hook_count = 0;
+    char info_buf[256];
+    this->c_state = state_;
 
-	err = DetourAttach(&(LPVOID&)GetTalkType, &proxyGetTalkType);
-	CHECK(info_buf, err);
-	if (err == NO_ERROR) {
-		hook_count++;
-	} else 
-		this->c_state->dbg_sock->do_send(info_buf);
+    err = DetourAttach(&(LPVOID&)GetTalkType, &proxyGetTalkType);
+    CHECK(info_buf, err);
+    if (err == NO_ERROR) {
+        hook_count++;
+    } else
+        this->c_state->dbg_sock->do_send(info_buf);
 
-	err = DetourAttach(&(LPVOID&)RecalcAveragePingTime, &proxyRecalcAveragePingTime);
-	CHECK(info_buf, err);
-	if (err == NO_ERROR) {
-		hook_count++;
-	}
-	else
-     this->c_state->dbg_sock->do_send(info_buf);
+    err = DetourAttach(&(LPVOID&)RecalcAveragePingTime, &proxyRecalcAveragePingTime);
+    CHECK(info_buf, err);
+    if (err == NO_ERROR) {
+        hook_count++;
+    } else
+        this->c_state->dbg_sock->do_send(info_buf);
 
-	sprintf_s(info_buf, "Session hooks available: %d", hook_count);
+    sprintf_s(info_buf, "Session hooks available: %d", hook_count);
     this->c_state->dbg_sock->do_send(info_buf);
 
-	this->hooked = true;
+    this->hooked = true;
 }
 
 #include <stdexcept>
@@ -145,15 +143,22 @@ int ProxySession::get_jobexp()
 
 int ProxySession::get_skillpoints()
 {
-	return this->c_session->skillPoints;
+    return this->c_session->skillPoints;
 }
 
 const std::string& ProxySession::get_job_type()
 {
-	return this->job_map[this->get_job<int>()].name_type;
+    return this->job_map[this->get_job<int>()].name_type;
 }
 
-const std::string& ProxySession::get_name()
+const char* ProxySession::get_name()
 {
-	return "todo";
+    return this->c_session->c_name;
 }
+
+const char* ProxySession::get_cur_map()
+{
+    return this->c_session->cur_map;
+}
+}
+

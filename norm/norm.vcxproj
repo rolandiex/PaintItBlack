@@ -160,6 +160,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="20150513.h" />
+    <ClInclude Include="20180620.h" />
     <ClInclude Include="20180621.h" />
     <ClInclude Include="20180921.h" />
     <ClInclude Include="CacheInfo.h" />

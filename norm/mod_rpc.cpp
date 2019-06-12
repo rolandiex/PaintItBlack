@@ -69,7 +69,9 @@ void rpc::updateDiscordPresence()
         sprintf_s(large_img_txt_buffer, "Job: %s", p_session.get_job<std::string>().c_str());
 		discordPresence.largeImageText = large_img_txt_buffer;
 
-        discordPresence.smallImageText = "Dont know what to put here!";
+		char small_img_txt_buffer[256];
+        sprintf_s(small_img_txt_buffer, "Map: %s", p_session.get_cur_map());
+        discordPresence.smallImageText = small_img_txt_buffer;
 
         discordPresence.instance = 0;
         Discord_UpdatePresence(&discordPresence);
@@ -85,6 +87,8 @@ rpc::rpc(norm_dll::norm* c_state)
 
 rpc::~rpc()
 {
+    Discord_ClearPresence();
+    Discord_Shutdown();
 }
 
 void rpc::init() {
@@ -106,7 +110,10 @@ int rpc::get_talk_type(char* src, int* retval)
     if (strcmp(src, "/rpc") == 0) {
 		this->SendPresence ^= 1;
         char buf[64];
-		sprintf_s(buf, "RPC executed!.");
+        if (this->SendPresence)
+			sprintf_s(buf, "RPC send active!");
+        else
+            sprintf_s(buf, "RPC clear active!");
 		this->print_to_chat(buf);
         *retval = -1;
         return 1;
