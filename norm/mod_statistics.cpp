@@ -4,7 +4,8 @@
 
 #include "hook_renderer.h"
 
-statistics::statistics(norm_dll::norm* c_state) : mod(c_state)
+statistics::statistics(norm_dll::norm* c_state, json* config)
+    : mod(c_state)
 {
 }
 

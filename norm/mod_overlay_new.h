@@ -6,15 +6,16 @@ class overlay_new :
 	public norm_dll::mod
 {
 public:
-	overlay_new(norm_dll::norm* c_state);
+    overlay_new(norm_dll::norm* c_state, json* config);
 	virtual ~overlay_new();
 	HRESULT begin_scene(IDirect3DDevice7**);
 	HRESULT end_scene(IDirect3DDevice7**);
 
 private:
 	int initialized = 0;
-	int display_ping = false;
-	int display_fps = false;
+	int display_ping = 0;
+    int fps_conf = 0;
+	int display_fps = 0;
 	/* postion of the overlay */
 	int x = -1;
 	int y = -1;

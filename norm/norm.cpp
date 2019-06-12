@@ -22,11 +22,12 @@
 #include <tchar.h>
 #include <winhttp.h>
 #include <fstream>
+#include <fstream>
 
 #pragma comment(lib, "winhttp.lib")
 
 // Installs a mod based on the classname.
-#define INSTALL_MOD(modname) mods.push_back(std::make_shared<modname>(this));
+#define INSTALL_MOD(modname) mods.push_back(std::make_shared<modname>(this, &mod_configs[typeid(modname).name()+6]));
 
 /* dll class */
 namespace norm_dll {
@@ -65,6 +66,10 @@ void norm::start()
     sprintf_s(info_buf, "DLL compiled for: %dRE", CLIENT_VER_RE);
 #endif
     dbg_sock->do_send(info_buf);
+
+	/* Load configs */
+    if (!this->load_config())
+        return;
 
     /* Verify client date. */
     if (!this->verify_client())
@@ -294,6 +299,37 @@ bool norm::check_cheat_defender()
         MessageBoxA(0, err_buf, "norm.dll error!", MB_OK);
         return false;
     }
+    return true;
+}
+
+bool norm::load_config()
+{
+    dbg_sock->do_send("Loading Config...");
+    std::ifstream ifs("pib_config.json");
+    json config;
+
+	if (ifs.fail()) {
+        MessageBoxA(0, "Failed to open pib_config.json", "norm.dll error!", MB_OK);
+		return false;
+	}
+
+	try {
+		config = json::parse(ifs);
+        json mods = config.at("mods");
+        char buf[256];
+
+        for (json::iterator it = mods.begin(); it != mods.end(); ++it) {
+            sprintf_s(buf, "\t- %s", it.key().c_str());
+			dbg_sock->do_send(buf);
+            sprintf_s(buf, "\t\t- %s", it.value().dump().c_str());
+            dbg_sock->do_send(buf);
+            this->mod_configs[it.key()] = it.value();
+        }
+    } catch (json::parse_error& e) {
+        MessageBoxA(0, e.what(), "norm.dll error!", MB_OK);
+        return false;
+	}
+    dbg_sock->do_send("Done!");
     return true;
 }
 

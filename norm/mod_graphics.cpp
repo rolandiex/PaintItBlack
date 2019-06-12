@@ -1,8 +1,12 @@
 #include "stdafx.h"
 #include "mod_graphics.h"
 
-graphics::graphics(norm_dll::norm * c_state) : mod(c_state)
+graphics::graphics(norm_dll::norm* c_state, json* config)
+    : mod(c_state)
 {
+    if (config) {
+        this->vsync_active = config->at("vsync_default_on").get<BOOL>();
+    }
 }
 
 graphics::~graphics()
