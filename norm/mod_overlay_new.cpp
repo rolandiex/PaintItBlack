@@ -95,7 +95,7 @@ void overlay_new::init(IDirect3DDevice7* d3ddevice)
             logfont.lfClipPrecision = CLIP_DEFAULT_PRECIS;
             logfont.lfQuality = NONANTIALIASED_QUALITY;
             logfont.lfPitchAndFamily = FIXED_PITCH | FF_DONTCARE;
-            wcscpy_s(logfont.lfFaceName, L"‚l‚r ‚oƒSƒVƒbƒN");
+            wcscpy_s(logfont.lfFaceName, L"â€šlâ€šr â€šoÆ’SÆ’VÆ’bÆ’N");
 
             m_pSFastFont = new CSFastFont;
             m_pSFastFont->CreateFastFont(&logfont, d3ddevice, m_pddsFontTexture, 0);

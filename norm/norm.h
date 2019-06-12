@@ -23,10 +23,10 @@ class norm : public std::enable_shared_from_this<norm> {
 	private:
         bool check_cheat_defender();
         bool verify_client();
-		bool load_config();
+		    bool load_config();
         void show_splash();
         HINSTANCE hInst;
-		void install_mods();
+		    void install_mods();
         splash logo;
         splash pib;
         std::map<std::string, json> mod_configs;

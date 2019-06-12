@@ -22,7 +22,6 @@
 #include <tchar.h>
 #include <winhttp.h>
 #include <fstream>
-#include <fstream>
 
 #pragma comment(lib, "winhttp.lib")
 
@@ -70,7 +69,7 @@ void norm::start()
 	/* Load configs */
     if (!this->load_config())
         return;
-
+  
     /* Verify client date. */
     if (!this->verify_client())
         return;
