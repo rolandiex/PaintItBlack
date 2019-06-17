@@ -3,13 +3,13 @@
 #include "client_ver.h"
 #include "singleton.h"
 
-#include <memory>
 #include <map>
+#include <memory>
 
 namespace norm_dll {
 typedef struct job_names {
-	std::string name;
-	std::string name_type;
+    std::string name;
+    std::string name_type;
 } job_names;
 
 class norm;
@@ -23,7 +23,7 @@ private:
     };
 
     CSession* c_session = reinterpret_cast<CSession*>(SESSION_PTR);
-	// TODO: rename lpVariables.
+    // TODO: rename lpVariables.
     lpGetTalkType GetTalkType = reinterpret_cast<lpGetTalkType>(GETTALKTYPE_FN);
     lpRecalcAveragePingTime RecalcAveragePingTime = reinterpret_cast<lpRecalcAveragePingTime>(RECALCAVERAGEPINGTIME_FN);
     bool hooked = false;
@@ -31,18 +31,6 @@ private:
     ProxySession() {}
     static PGETTALKTYPE_FN;
     static void __fastcall proxyRecalcAveragePingTime(void* this_obj, DWORD EDX, unsigned long a1);
-	std::map<int, job_names> job_map = {{0, {"Novice", "novice"}},
-                                      	  {1, {"Swordman", "swordsman"}},
-                                      	  {2, {"Magican", "mage"}},
-                                      	  {3, {"Archer", "archer"}},
-                                      	  {4, {"Acolyte", "acolyte"}},
-                                      	  {5, {"Merchant", "merchant"}},
-                                      	  {6, {"Thief", "thief"}},
-                                      	  {7, {"Knight", "knight"}},
-                                      	  {8, {"Priest", "priest"}},
-                                      	  {9, {"Wizard", "wizard"}},
-                                      	  {10, {"Blacksmith", "blacksmith"}}};
-										  // TODO add all jobs to list
 
 public:
     ProxySession(token) {}
@@ -58,25 +46,70 @@ public:
     int get_joblevel();
     int get_jobnextexp();
     int get_jobexp();
-	int get_skillpoints();
-	const char* get_name();
+    int get_skillpoints();
+    const char* get_name();
     const char* get_cur_map();
-	const std::string& get_job_type();
+    const std::string& get_job_type();
 
-	template<typename T>
-	const T& get_job() {}
+    template <typename T>
+    const T& get_job() {}
 
-	template<>
-	const int& get_job<int>()
-	{
-	    	return this->c_session->job;
-	}
+    template <>
+    const int& get_job<int>()
+    {
+        return this->c_session->job;
+    }
 
-	template<>
-	const std::string& get_job<std::string>()
-	{
-		return this->job_map[this->get_job<int>()].name;
-	}
+    template <>
+    const std::string& get_job<std::string>()
+    {
+        return this->job_map[this->get_job<int>()].name;
+    }
+
+private:
+    std::map<int, job_names> job_map = {
+        { 0, { "Novice", "novice" } },
+        { 1, { "Swordman", "swordsman" } },
+        { 2, { "Magican", "mage" } },
+        { 3, { "Archer", "archer" } },
+        { 4, { "Acolyte", "acolyte" } },
+        { 5, { "Merchant", "merchant" } },
+        { 6, { "Thief", "thief" } },
+        { 7, { "Knight", "knight" } },
+        { 8, { "Priest", "priest" } },
+        { 9, { "Wizard", "wizard" } },
+        { 10, { "Blacksmith", "blacksmith" } },
+        { 11, { "Hunter", "hunter" } },
+        { 12, { "Assassin", "assassin" } },
+        { 14, { "Crusader", "crusader" } },
+        { 15, { "Monk", "monk" } },
+        { 16, { "Sage", "sage" } },
+        { 17, { "Rogue", "rogue" } },
+        { 18, { "Alchemist", "alchemist" } },
+        { 19, { "Bard", "bard" } },
+        { 20, { "Dancer", "dancer" } },
+        { 4001, { "Novice High", "novice_high" } },
+        { 4002, { "Swordman High", "swordman_high" } },
+        { 4003, { "Magican High", "magican_high" } },
+        { 4004, { "Archer High", "archer_high" } },
+        { 4005, { "Acolyte High", "acolyte_high" } },
+        { 4006, { "Merchant High", "merchant_high" } },
+        { 4007, { "Thief High", "thief_high" } },
+        { 4008, { "Lord Knight", "lord_knight" } },
+        { 4009, { "High Priest", "high_priest" } },
+        { 4010, { "High Wizard", "high_wizard" } },
+        { 4011, { "Whitesmith", "whitesmith" } },
+        { 4012, { "Sniper", "sniper" } },
+        { 4013, { "Assassin Cross", "assassin_cross" } },
+        { 4015, { "Paladin", "paladin" } },
+        { 4016, { "Champion", "champion" } },
+        { 4017, { "Professor", "professor" } },
+        { 4018, { "Stalker", "stalker" } },
+        { 4019, { "Creator", "creator" } },
+        { 4020, { "Clown", "clown" } },
+        { 4021, { "Gypsy", "gypsy" } },
+    };
+    // TODO add all jobs to list
 };
 } // norm_dll
 
