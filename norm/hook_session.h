@@ -50,6 +50,7 @@ public:
     const char* get_name();
     const char* get_cur_map();
     const std::string& get_job_type();
+    bool is_male();
 
     template <typename T>
     const T& get_job() {}

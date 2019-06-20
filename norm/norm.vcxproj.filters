@@ -138,9 +138,6 @@
     <ClInclude Include="mod_rpc.h">
       <Filter>Headerdateien\mods</Filter>
     </ClInclude>
-    <ClInclude Include="20180921.h">
-      <Filter>Headerdateien\hooks\client_defines</Filter>
-    </ClInclude>
     <ClInclude Include="mod_rpc.h">
       <Filter>Headerdateien\mods</Filter>
     </ClInclude>
@@ -157,6 +154,12 @@
       <Filter>Headerdateien\mods</Filter>
     </ClInclude>
     <ClInclude Include="20180620.h">
+      <Filter>Headerdateien\hooks\client_defines</Filter>
+    </ClInclude>
+    <ClInclude Include="20180919.h">
+      <Filter>Headerdateien\hooks\client_defines</Filter>
+    </ClInclude>
+    <ClInclude Include="20180621RE.h">
       <Filter>Headerdateien\hooks\client_defines</Filter>
     </ClInclude>
   </ItemGroup>

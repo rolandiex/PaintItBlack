@@ -18,26 +18,27 @@ int init_ping_calls = 2;
  * /goldpc
  */
 #if ((CLIENT_VER <= 20180919 && CLIENT_VER >= 20180620) || CLIENT_VER_RE == 20180621)
-int __fastcall ProxySession::proxyGetTalkType(void* this_obj, DWORD EDX, void* a2, int a3, int a4){
+int __fastcall ProxySession::proxyGetTalkType(void* this_obj, DWORD EDX, void* a2, int a3, int a4)
+{
 #elif CLIENT_VER == 20150000
 signed int __fastcall ProxySession::proxyGetTalkType(void* this_obj, DWORD EDX, char* a2, int a3, char* a4)
 {
 #endif
     auto& instance = ProxySession::instance();
 
-int cret = 0;
-int retval = 0;
+    int cret = 0;
+    int retval = 0;
 
-for (auto callback : instance.c_state->mods)
-    cret += callback->get_talk_type(reinterpret_cast<char*>(a2), &retval);
+    for (auto callback : instance.c_state->mods)
+        cret += callback->get_talk_type(reinterpret_cast<char*>(a2), &retval);
 
-if (cret == 1)
-    return retval;
+    if (cret == 1)
+        return retval;
 
-if (cret > 1)
-    instance.c_state->dbg_sock->do_send("Error: Multiple GetTalkType hooks want to return a value.");
+    if (cret > 1)
+        instance.c_state->dbg_sock->do_send("Error: Multiple GetTalkType hooks want to return a value.");
 
-return (instance.GetTalkType)(this_obj, a2, a3, a4);
+    return (instance.GetTalkType)(this_obj, a2, a3, a4);
 }
 
 /*
@@ -160,5 +161,9 @@ const char* ProxySession::get_cur_map()
 {
     return this->c_session->cur_map;
 }
-}
 
+bool ProxySession::is_male()
+{
+    return false;
+}
+}

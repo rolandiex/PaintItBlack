@@ -60,7 +60,7 @@ void rpc::updateDiscordPresence()
         discordPresence.startTimestamp = this->StartTime;
 		
 		char large_img_buffer[256];
-		sprintf_s(large_img_buffer, "%s_male", p_session.get_job_type().c_str());
+		sprintf_s(large_img_buffer, "%s_%s", p_session.get_job_type().c_str(), (p_session.is_male() ? "male" : "female"));
         discordPresence.largeImageKey = large_img_buffer;
 
         discordPresence.smallImageKey = "marker";

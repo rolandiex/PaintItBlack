@@ -162,7 +162,8 @@
     <ClInclude Include="20150513.h" />
     <ClInclude Include="20180620.h" />
     <ClInclude Include="20180621.h" />
-    <ClInclude Include="20180921.h" />
+    <ClInclude Include="20180621RE.h" />
+    <ClInclude Include="20180919.h" />
     <ClInclude Include="CacheInfo.h" />
     <ClInclude Include="CProxyIDirect3D7.h" />
     <ClInclude Include="CProxyIDirect3DDevice7.h" />
