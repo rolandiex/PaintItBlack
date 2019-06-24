@@ -170,6 +170,7 @@
     <ClInclude Include="hook_user32.h" />
     <ClInclude Include="json.h" />
     <ClInclude Include="mod.h" />
+    <ClInclude Include="mod_config.h" />
     <ClInclude Include="mod_graphics.h" />
     <ClInclude Include="mod_overlay_new.h" />
     <ClInclude Include="mod_statistics.h" />
@@ -200,6 +201,7 @@
     <ClCompile Include="hook_session.cpp" />
     <ClCompile Include="hook_user32.cpp" />
     <ClCompile Include="mod.cpp" />
+    <ClCompile Include="mod_config.cpp" />
     <ClCompile Include="mod_graphics.cpp" />
     <ClCompile Include="mod_overlay_new.cpp" />
     <ClCompile Include="mod_statistics.cpp" />

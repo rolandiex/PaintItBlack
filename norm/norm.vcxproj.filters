@@ -135,6 +135,9 @@
     <ClInclude Include="json.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="mod_config.h">
+      <Filter>Headerdateien\mods</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -211,6 +214,9 @@
     </ClCompile>
     <ClCompile Include="splash.cpp">
       <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="mod_config.cpp">
+      <Filter>Quelldateien\mods</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
