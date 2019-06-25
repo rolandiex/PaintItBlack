@@ -13,6 +13,13 @@ graphics::~graphics()
 {
 }
 
+void graphics::get_current_setting(json& setting)
+{
+	setting =  {
+        { "vsync_default_on", this->vsync_active } 
+    };
+}
+
 #if ((CLIENT_VER <= 20180919 && CLIENT_VER >= 20180620) || CLIENT_VER_RE == 20180621)
 int graphics::get_talk_type(void **this_obj, void **src, int *a1, int *a2, int* retval)
 #elif CLIENT_VER == 20150000
