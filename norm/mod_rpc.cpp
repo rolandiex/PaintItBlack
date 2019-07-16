@@ -77,7 +77,7 @@ void rpc::updateDiscordPresence()
         Discord_UpdatePresence(&discordPresence);
     } else {
         Discord_ClearPresence();
-    }
+    } 
 }
 
 rpc::rpc(norm_dll::norm* c_state)
