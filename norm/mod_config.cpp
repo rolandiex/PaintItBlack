@@ -29,7 +29,7 @@ int config::get_talk_type(void** this_obj, char** src, int* a1, char** a2, int* 
             mod_->get_current_setting(settings["mods"][typeid(*mod_).name() + 6]);
         }
         c_state->dbg_sock->do_send(settings.dump().c_str());
-        std::ofstream o("pib_test_config.json");
+        std::ofstream o("pib_config.json");
         o << std::setw(4) << settings << std::endl;
 
         char buf[256];
