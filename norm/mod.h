@@ -41,6 +41,14 @@ public: //hide later with private and friendclass
     virtual HRESULT end_scene(IDirect3DDevice7**) { return E_NOTIMPL; }
     virtual HRESULT WaitForVerticalBlank(DWORD*, HANDLE*) { return E_NOTIMPL; };
     virtual void ddraw_release() {}
+
+	/**
+	* init:
+	*	called right after creating the CProxyIDirect3DDevice7.
+	*	This happens when the client is about to display on startup.
+	*   All load heavy work should be done in init.
+	*	PiB logo is displayed until all calls to init are done, then the client window is displayed.
+	**/
 	virtual void init() {}
 
     int active = -1;
