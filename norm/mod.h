@@ -18,6 +18,7 @@ public:
     {
     }
     virtual ~mod() {}
+    virtual void get_current_setting(json& setting) { setting = json({}); };
     virtual void draw_scene(void*) {}
 #if ((CLIENT_VER <= 20180919 && CLIENT_VER >= 20180620) || CLIENT_VER_RE == 20180621)
     virtual void send_msg(void**, int*, void**, void**, int*, int*)

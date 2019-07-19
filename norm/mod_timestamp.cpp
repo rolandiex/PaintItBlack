@@ -63,3 +63,10 @@ int timestamp::get_talk_type(void** this_obj, char** src, int* a1, char** a2, in
 	}
 	return 0;
 }
+
+void timestamp::get_current_setting(json& setting)
+{
+    setting = { { "default_on", static_cast<bool>(this->enabled) },
+        { "format", this->time_format }
+	};
+}

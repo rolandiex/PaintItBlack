@@ -10,6 +10,7 @@ public:
 	HRESULT WaitForVerticalBlank(DWORD*, HANDLE*);
 	int get_talk_type(void**, void**, int*, int*, int*);
 	int get_talk_type(void**, char**, int*, char**, int*);
+    void get_current_setting(json& settings);
 
 private:
 	bool vsync_active = false; //default: disable vsync

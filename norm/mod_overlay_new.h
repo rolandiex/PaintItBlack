@@ -10,6 +10,7 @@ public:
 	virtual ~overlay_new();
 	HRESULT begin_scene(IDirect3DDevice7**);
 	HRESULT end_scene(IDirect3DDevice7**);
+    void get_current_setting(json& setting);
 
 private:
 	int initialized = 0;

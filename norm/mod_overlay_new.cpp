@@ -139,6 +139,14 @@ HRESULT overlay_new::end_scene(IDirect3DDevice7** d3ddevice)
     return S_OK;
 }
 
+void overlay_new::get_current_setting(json& setting)
+{
+    setting = {
+		{ "ping_default_on", static_cast<bool>(this->display_ping)}, 
+		{ "fps_default_on", static_cast<bool>(this->display_fps)}
+	};
+}
+
 #if ((CLIENT_VER <= 20180919 && CLIENT_VER >= 20180620) || CLIENT_VER_RE == 20180621)
 int overlay_new::get_talk_type(void** this_obj, void** src, int* a1, int* a2, int* retval)
 #elif CLIENT_VER == 20150000
