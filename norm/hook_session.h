@@ -91,9 +91,9 @@ private:
 		{ 19, { "Bard",			"bard" } },
 		{ 20, { "Dancer",		"dancer" } },
 		{ 21, { "Crusader",		"crusader" } },
-		{ 23, { "Super Novice",		"supernovice" } }
-		{ 24, { "Gunslinger",		"gunslinger" } }
-		{ 25, { "Ninja",		"ninja" } }
+		{ 23, { "Super Novice",		"supernovice" } },
+		{ 24, { "Gunslinger",		"gunslinger" } },
+		{ 25, { "Ninja",		"ninja" } },
 		{ 4001, { "Novice High",	"novice" } },
 		{ 4002, { "Swordman High",	"swordman" } },
 		{ 4003, { "Magican High",	"magican" } },
