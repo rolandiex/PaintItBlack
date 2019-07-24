@@ -164,6 +164,6 @@ const char* ProxySession::get_cur_map()
 
 bool ProxySession::is_male()
 {
-    return false;
+    return this->c_session->sex;
 }
 }
