@@ -66,7 +66,7 @@ int debug::get_talk_type(char* src, int* retval)
     }
 	
 	char tmp_src[125]; // max chat input length	
-	strcpy_s(tmp_src, src);
+	strncpy_s(tmp_src, src, 124);
 	const char delimiter[] = " ";
 	char* next_token;
 	char* token = strtok_s(tmp_src, delimiter, &next_token);
