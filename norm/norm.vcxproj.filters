@@ -43,6 +43,9 @@
     <Filter Include="Quelldateien\hooks\hook_dx\fast_font">
       <UniqueIdentifier>{6b6cd044-7119-4124-8b7e-15741a9dcd81}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Headerdateien\hooks\client_defines">
+      <UniqueIdentifier>{b1ffff50-926f-4d75-9dea-7975a3bc73f3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -132,6 +135,33 @@
     <ClInclude Include="resource.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="mod_rpc.h">
+      <Filter>Headerdateien\mods</Filter>
+    </ClInclude>
+    <ClInclude Include="mod_rpc.h">
+      <Filter>Headerdateien\mods</Filter>
+    </ClInclude>
+    <ClInclude Include="20150513.h">
+      <Filter>Headerdateien\hooks\client_defines</Filter>
+    </ClInclude>
+    <ClInclude Include="singleton.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="20180621.h">
+      <Filter>Headerdateien\hooks\client_defines</Filter>
+    </ClInclude>
+    <ClInclude Include="mod_debug.h">
+      <Filter>Headerdateien\mods</Filter>
+    </ClInclude>
+    <ClInclude Include="20180620.h">
+      <Filter>Headerdateien\hooks\client_defines</Filter>
+    </ClInclude>
+    <ClInclude Include="20180919.h">
+      <Filter>Headerdateien\hooks\client_defines</Filter>
+    </ClInclude>
+    <ClInclude Include="20180621RE.h">
+      <Filter>Headerdateien\hooks\client_defines</Filter>
+    </ClInclude>
     <ClInclude Include="json.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
@@ -215,13 +245,18 @@
     <ClCompile Include="splash.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="mod_rpc.cpp">
+      <Filter>Quelldateien\mods</Filter>
+    </ClCompile>
+    <ClCompile Include="mod_debug.cpp">
+       <Filter>Quelldateien\mods</Filter>
+    </ClCompile>
     <ClCompile Include="mod_config.cpp">
       <Filter>Quelldateien\mods</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resource.rc">
