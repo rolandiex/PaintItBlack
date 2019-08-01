@@ -3,6 +3,7 @@
 #include "debug_socket.h"
 #include "hook_renderer.h"
 #include "hook_session.h"
+#include "hook_modemgr.h"
 #define INITGUID
 #include <d3d.h>
 
@@ -21,6 +22,7 @@ public:
 protected:
     ProxySession& p_session = ProxySession::instance();
     ProxyRenderer& p_renderer = ProxyRenderer::instance();
+	ProxyModeMgr& p_modemgr = ProxyModeMgr::instance();
     norm* c_state;
     void print_to_chat(char* msg);
 
@@ -39,12 +41,13 @@ public: //hide later with private and friendclass
         return E_NOTIMPL;
     }
     virtual HRESULT end_scene(IDirect3DDevice7**) { return E_NOTIMPL; }
+	virtual HRESULT set_render_state(IDirect3DDevice7**) { return E_NOTIMPL; }
     virtual HRESULT WaitForVerticalBlank(DWORD*, HANDLE*) { return E_NOTIMPL; };
     virtual void ddraw_release() {}
 
 	/**
 	* init:
-	*	called right after creating the CProxyIDirect3DDevice7.
+	*	called when creating the CProxyIDirect3DDevice7.
 	*	This happens when the client is about to display on startup.
 	*   All load heavy work should be done in init.
 	*	PiB logo is displayed until all calls to init are done, then the client window is displayed.
