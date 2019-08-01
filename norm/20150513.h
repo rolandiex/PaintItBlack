@@ -31,10 +31,12 @@ typedef void(__thiscall* lpRecalcAveragePingTime)(void*, unsigned long);
 	/* 0x618  */ char cur_map[0x14];		\
 	/* 0x62C  */ BYTE offset1[0x8];			\
     /* 0x634  */ ULONG average_ping_time; \
-    /* 0x638  */ BYTE offset2[0xBCC];     \
+    /* 0x638  */ BYTE offset2[0x484];     \
+	/* 0xABC  */ int sex;				  \
+	/* 0xAC0  */ BYTE offset3[0x744];		\
     /* 0x1204 */ ULONG aid;               \
     /* 0x1208 */ ULONG gid;               \
-    /* 0x120C */ BYTE offset3[0x8];       \
+    /* 0x120C */ BYTE offset4[0x8];       \
     /* 0x1214 */ int job;                 \
     /* 0x1218 */ int exp;                 \
     /* 0x121C */ int level;               \
@@ -42,10 +44,10 @@ typedef void(__thiscall* lpRecalcAveragePingTime)(void*, unsigned long);
     /* 0x1224 */ int next_exp;            \
     /* 0x1228 */ int joblevel;            \
     /* 0x122C */ int skillPoints;         \
-    /* 0x1230 */ BYTE offset4[0xA0];      \
+    /* 0x1230 */ BYTE offset5[0xA0];      \
     /* 0x12D0 */ int jobnextexp;          \
     /* 0x12D4 */ int jobexp;				\
-	/* 0x12D8 */ BYTE offset5[0x4480];		\
+	/* 0x12D8 */ BYTE offset6[0x4480];		\
 	/* 0x5758 */ char c_name[40];
 //+5780
 //};
