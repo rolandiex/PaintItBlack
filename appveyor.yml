@@ -40,7 +40,7 @@ before_build:
 build_script:
 - cmd: msbuild norm_release.sln /p:DefineConstants="%Defines%;DLL_RELEASE=%APPVEYOR_BUILD_VERSION%;CI"
 after_build:
-- 7z a %DEPLOY_NAME%.zip %APPVEYOR_BUILD_FOLDER%\Release\norm.dll
+- 7z a %DEPLOY_NAME%.zip %APPVEYOR_BUILD_FOLDER%\Release\norm.dll %APPVEYOR_BUILD_FOLDER%\pib_config.json
 
 deploy:
   release: v$(appveyor_build_version)

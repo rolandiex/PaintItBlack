@@ -13,6 +13,18 @@ private:
 	int display_ping = false;
 	int display_fps = false;
 
+
+    overlay_new(norm_dll::norm* c_state, json* config);
+	virtual ~overlay_new();
+	HRESULT begin_scene(IDirect3DDevice7**);
+	HRESULT end_scene(IDirect3DDevice7**);
+    void get_current_setting(json& setting);
+
+private:
+	int initialized = 0;
+	int display_ping = 0;
+    int fps_conf = 0;
+	int display_fps = 0;
 	/* postion of the overlay */
 	int x = -1;
 	int y = -1;

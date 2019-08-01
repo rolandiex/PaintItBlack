@@ -162,6 +162,12 @@
     <ClInclude Include="20180621RE.h">
       <Filter>Headerdateien\hooks\client_defines</Filter>
     </ClInclude>
+    <ClInclude Include="json.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="mod_config.h">
+      <Filter>Headerdateien\mods</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -243,6 +249,9 @@
       <Filter>Quelldateien\mods</Filter>
     </ClCompile>
     <ClCompile Include="mod_debug.cpp">
+       <Filter>Quelldateien\mods</Filter>
+    </ClCompile>
+    <ClCompile Include="mod_config.cpp">
       <Filter>Quelldateien\mods</Filter>
     </ClCompile>
   </ItemGroup>

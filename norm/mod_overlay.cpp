@@ -4,7 +4,8 @@
 #include "hook_renderer.h"
 #include "hook_session.h"
 
-overlay::overlay(norm_dll::norm* c_state) : mod(c_state)
+overlay::overlay(norm_dll::norm* c_state, json* config)
+    : mod(c_state)
 {
 }
 

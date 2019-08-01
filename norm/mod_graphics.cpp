@@ -3,9 +3,12 @@
 #include "mod_graphics.h"
 #include "norm.h"
 
-
-graphics::graphics(norm_dll::norm* c_state) : mod(c_state)
+graphics::graphics(norm_dll::norm* c_state, json* config)
+    : mod(c_state)
 {
+    if (config) {
+        this->vsync_active = config->at("vsync_default_on").get<BOOL>();
+    }
 }
 
 graphics::~graphics()
@@ -85,7 +88,7 @@ void graphics::init(IDirect3DDevice7* d3ddevice)
             logfont.lfClipPrecision = CLIP_DEFAULT_PRECIS;
             logfont.lfQuality = NONANTIALIASED_QUALITY;
             logfont.lfPitchAndFamily = FIXED_PITCH | FF_DONTCARE;
-            wcscpy_s(logfont.lfFaceName, L"‚l‚r ‚oƒSƒVƒbƒN");
+            wcscpy_s(logfont.lfFaceName, L"ï¿½lï¿½r ï¿½oï¿½Sï¿½Vï¿½bï¿½N");
 
             m_pSFastFont = new CSFastFont;
             m_pSFastFont->CreateFastFont(&logfont, d3ddevice, m_pddsFontTexture, 0);
@@ -139,6 +142,19 @@ void graphics::ddraw_release()
     ((D3DCOLOR)((((a)&0xff) << 24) | (((r)&0xff) << 16) | (((g)&0xff) << 8) | ((b)&0xff)))
 
 void graphics::print_screen(char* str, int x, int y, int a, int r, int g, int b)
+
+void graphics::get_current_setting(json& setting)
+{
+	setting =  {
+        { "vsync_default_on", this->vsync_active } 
+    };
+}
+
+#if ((CLIENT_VER <= 20180919 && CLIENT_VER >= 20180620) || CLIENT_VER_RE == 20180621)
+int graphics::get_talk_type(void **this_obj, void **src, int *a1, int *a2, int* retval)
+#elif CLIENT_VER == 20150000
+int graphics::get_talk_type(void**this_obj, char** src, int* a1, char** a2, int* retval)
+#endif
 {
     m_pSFastFont->DrawText(str, x, y, D3DCOLOR_ARGB(a, r, g, b), 0, NULL);
 }

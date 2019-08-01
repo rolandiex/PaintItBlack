@@ -37,5 +37,4 @@
 #elif CLIENT_VER_RE == 20180621
 #define DLL_VER "RO_2018-06-21RagexeRE"
 #include "20180621RE.h"
-
 #endif

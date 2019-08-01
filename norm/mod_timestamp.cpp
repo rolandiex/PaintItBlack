@@ -4,8 +4,13 @@
 
 #include <time.h>
 
-timestamp::timestamp(norm_dll::norm* c_state) : mod(c_state)
+timestamp::timestamp(norm_dll::norm* c_state, json* config)
+    : mod(c_state)
 {
+    if (config) {
+        this->enabled = static_cast<int>(config->at("default_on").get<BOOL>());
+        this->time_format = config->at("format").get<std::string>();
+	}
 }
 
 timestamp::~timestamp()
@@ -26,7 +31,7 @@ void timestamp::send_msg(void** this_obj, int* a1, int*   a2, int*   a3, int* a4
 		struct tm buf_tm;
 		char ts[10] = "";
 		const int err = localtime_s(&buf_tm, &t);
-		strftime(ts, 10, "%H:%M:%S", &buf_tm);
+		strftime(ts, 10, this->time_format.c_str(), &buf_tm);
 		sprintf_s(this->msg_buf, "[%s] %s", ts, reinterpret_cast<char*>(*a2));
 #if CLIENT_VER == 20150000
 		*a2 = reinterpret_cast<int>(&this->msg_buf);
@@ -52,4 +57,11 @@ int timestamp::get_talk_type(char* src, int* retval)
 		return 1;
 	}
 	return 0;
+}
+
+void timestamp::get_current_setting(json& setting)
+{
+    setting = { { "default_on", static_cast<bool>(this->enabled) },
+        { "format", this->time_format }
+	};
 }
