@@ -22,3 +22,4 @@ Release/norm.lib
 /packages/Microsoft.Gsl.0.1.2.1
 *.lastcodeanalysissucceeded
 /norm/Release
+/.vs

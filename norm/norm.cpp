@@ -41,17 +41,15 @@ norm::norm(HINSTANCE hInst)
 
 void norm::install_mods()
 {
-    auto g = std::make_shared<graphics>(this);
+    auto g = std::make_shared<graphics>(this, &mod_configs[typeid(overlay_new).name() + 6]);
 
     // Disable a mod by commenting out the specific line.
-    mods.push_back(std::make_shared<overlay_new>(this, g));
+    mods.push_back(std::make_shared<overlay_new>(this, g, &mod_configs[typeid(overlay_new).name() + 6]));
     mods.push_back(std::make_shared<debug>(this, g));
     INSTALL_MOD(timestamp);
     INSTALL_MOD(rpc);
     //INSTALL_MOD(statistics);
     mods.push_back(g);
-    INSTALL_MOD(overlay_new);
-    INSTALL_MOD(graphics);
     INSTALL_MOD(config);
 }
 

@@ -138,11 +138,6 @@ void graphics::ddraw_release()
     }
 }
 
-#define D3DCOLOR_ARGB(a, r, g, b) \
-    ((D3DCOLOR)((((a)&0xff) << 24) | (((r)&0xff) << 16) | (((g)&0xff) << 8) | ((b)&0xff)))
-
-void graphics::print_screen(char* str, int x, int y, int a, int r, int g, int b)
-
 void graphics::get_current_setting(json& setting)
 {
 	setting =  {
@@ -150,11 +145,10 @@ void graphics::get_current_setting(json& setting)
     };
 }
 
-#if ((CLIENT_VER <= 20180919 && CLIENT_VER >= 20180620) || CLIENT_VER_RE == 20180621)
-int graphics::get_talk_type(void **this_obj, void **src, int *a1, int *a2, int* retval)
-#elif CLIENT_VER == 20150000
-int graphics::get_talk_type(void**this_obj, char** src, int* a1, char** a2, int* retval)
-#endif
+#define D3DCOLOR_ARGB(a, r, g, b) \
+    ((D3DCOLOR)((((a)&0xff) << 24) | (((r)&0xff) << 16) | (((g)&0xff) << 8) | ((b)&0xff)))
+
+void graphics::print_screen(char* str, int x, int y, int a, int r, int g, int b)
 {
     m_pSFastFont->DrawText(str, x, y, D3DCOLOR_ARGB(a, r, g, b), 0, NULL);
 }

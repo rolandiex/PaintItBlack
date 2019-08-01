@@ -80,7 +80,7 @@ void rpc::updateDiscordPresence()
     } 
 }
 
-rpc::rpc(norm_dll::norm* c_state)
+rpc::rpc(norm_dll::norm* c_state, json* config)
     : mod(c_state)
 {
 }

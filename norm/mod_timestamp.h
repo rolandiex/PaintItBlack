@@ -8,11 +8,10 @@ public:
 	virtual ~timestamp();
 	void send_msg(void**, int*, void**, void**, int*, int*);
 	void send_msg(void**, int*, int*, int*, int*, int*);
-
-	int get_talk_type(char*, int*);
-  void get_current_setting(json& setting);
+	void get_current_setting(json& setting);
 
 private:
+	int get_talk_type(char*, int*);
 	int enabled = 1;
     std::string time_format = "%H:%M:%S";
 	char msg_buf[256] = { 0 };

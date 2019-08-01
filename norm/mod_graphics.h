@@ -4,14 +4,10 @@
 
 class graphics : public norm_dll::mod {
 public:
-
-    void print_screen(char* str, int x, int y, int a = 255, int r = 255, int g = 255, int b = 0);
     graphics(norm_dll::norm* c_state, json* config);
     virtual ~graphics();
-	  HRESULT WaitForVerticalBlank(DWORD*, HANDLE*);
-	  int get_talk_type(void**, void**, int*, int*, int*);
-	  int get_talk_type(void**, char**, int*, char**, int*);
     void get_current_setting(json& settings);
+	void print_screen(char* str, int x, int y, int a = 255, int r = 255, int g = 255, int b = 0);
 
 private:
     LPDIRECTDRAWSURFACE7 m_pddsFontTexture = nullptr;

@@ -4,7 +4,7 @@
 class rpc : public norm_dll::mod
 {
     public:
-    rpc(norm_dll::norm* c_state);
+    rpc(norm_dll::norm* c_state, json* config);
     ~rpc();
 
 	void updateDiscordPresence();
