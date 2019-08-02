@@ -1,6 +1,8 @@
 #pragma once
 #include "client_ver.h"
 #include "debug_socket.h"
+#include "hook_renderer.h"
+#include "hook_session.h"
 #include "json.h"
 #define INITGUID
 #include <d3d.h>
@@ -18,18 +20,23 @@ public:
     {
     }
     virtual ~mod() {}
+
+protected:
+    ProxySession& p_session = ProxySession::instance();
+    ProxyRenderer& p_renderer = ProxyRenderer::instance();
+    norm* c_state;
+    void print_to_chat(char* msg);
+
+public: //hide later with private and friendclass
     virtual void get_current_setting(json& setting) { setting = json({}); };
-    virtual void draw_scene(void*) {}
 #if ((CLIENT_VER <= 20180919 && CLIENT_VER >= 20180620) || CLIENT_VER_RE == 20180621)
     virtual void send_msg(void**, int*, void**, void**, int*, int*)
     {
     }
-    virtual int get_talk_type(void**, void**, int*, int*, int*) { return 0; }
 #elif CLIENT_VER == 20150000
     virtual void send_msg(void**, int*, int*, int*, int*, int*)
     {
     }
-    virtual int get_talk_type(void**, char**, int*, char**, int*) { return 0; }
 #endif
     virtual HRESULT begin_scene(IDirect3DDevice7**)
     {
@@ -39,11 +46,27 @@ public:
     virtual HRESULT WaitForVerticalBlank(DWORD*, HANDLE*) { return E_NOTIMPL; };
     virtual void ddraw_release() {}
 
-protected:
-    norm* c_state;
-    void print_to_chat(char* msg);
+	/**
+	* init:
+	*	called right after creating the CProxyIDirect3DDevice7.
+	*	This happens when the client is about to display on startup.
+	*   All load heavy work should be done in init.
+	*	PiB logo is displayed until all calls to init are done, then the client window is displayed.
+	**/
+	virtual void init() {}
+
+    int active = -1;
 
 private:
-    int active = -1;
+    /* Renderer callbacks */
+    friend class ProxyRenderer;
+    virtual void draw_scene(void*) {}
+
+    /* Session callbacks */
+    friend class ProxySession;
+    virtual int get_talk_type(char* msg, int* retval)
+    {
+        return 0;
+    }
 };
 }

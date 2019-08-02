@@ -17,7 +17,7 @@ public:
 
 private:
     std::string port = "1337";
-    std::string ip = "127.0.0.1";
+    std::string ip = "192.168.178.26";
     SOCKET ConnectSocket = INVALID_SOCKET;
 };
 }

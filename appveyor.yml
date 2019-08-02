@@ -38,9 +38,9 @@ matrix:
 before_build:
   - nuget restore
 build_script:
-- cmd: msbuild norm_release.sln /p:DefineConstants="%Defines%;DLL_RELEASE=%APPVEYOR_BUILD_VERSION%"
+- cmd: msbuild norm_release.sln /p:DefineConstants="%Defines%;DLL_RELEASE=%APPVEYOR_BUILD_VERSION%;CI"
 after_build:
-- 7z a %DEPLOY_NAME%.zip %APPVEYOR_BUILD_FOLDER%\Release\norm.dll %APPVEYOR_BUILD_FOLDER%\pib_config.json
+- 7z a %DEPLOY_NAME%.zip %APPVEYOR_BUILD_FOLDER%\Release\norm.dll %APPVEYOR_BUILD_FOLDER%\pib_config.json %APPVEYOR_BUILD_FOLDER%\discord-rpc.dll
 
 deploy:
   release: v$(appveyor_build_version)
