@@ -16,6 +16,7 @@ private:
     int initialized = 0;
     bool vsync_active = false; //default: disable vsync
     void ddraw_release();
+
     HRESULT WaitForVerticalBlank(DWORD*, HANDLE*);
     int get_talk_type(char*, int*);
     HRESULT begin_scene(IDirect3DDevice7**);
