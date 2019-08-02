@@ -22,6 +22,7 @@
 #include "mod_rpc.h"
 #include "mod_debug.h"
 #include "mod_config.h"
+#include "mod_info.h"
 
 #include <tchar.h>
 #include <winhttp.h>
@@ -50,6 +51,7 @@ void norm::install_mods()
     INSTALL_MOD(timestamp);
     INSTALL_MOD(rpc);
     //INSTALL_MOD(statistics);
+	INSTALL_MOD(info);
     mods.push_back(g);
     INSTALL_MOD(config);
 }
@@ -117,8 +119,8 @@ void norm::start()
 	auto& p_session = ProxySession::instance();
     p_session.hook(sptr);
 
-	//auto& p_windowmgr = ProxyUIWindowMgr::instance();
-	//p_windowmgr.hook(sptr);
+	auto& p_windowmgr = ProxyUIWindowMgr::instance();
+	p_windowmgr.hook(sptr);
 
     this->install_mods();
 

@@ -36,7 +36,12 @@ int __fastcall UIWindowMgr_SendMsg_hook(void* this_obj, DWORD EDX, int a1, int a
 	for (auto callback : c_state->mods)
 		callback->send_msg(&this_obj, &a1, &a2, &a3, &a4, &a5);
 
-	return original_sendmsg(this_obj, a1, a2, a3, a4, a5);
+	auto ret = original_sendmsg(this_obj, a1, a2, a3, a4, a5);
+
+	for (auto callback : c_state->mods)
+		callback->send_msg_after(&this_obj, &a1, &a2, &a3, &a4, &a5);
+
+	return ret;
 }
 
 DWORD window_mgr_get_addr()

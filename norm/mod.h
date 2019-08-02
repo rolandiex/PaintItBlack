@@ -3,6 +3,7 @@
 #include "debug_socket.h"
 #include "hook_renderer.h"
 #include "hook_session.h"
+#include "hook_windowmgr.h"
 #include "json.h"
 #define INITGUID
 #include <d3d.h>
@@ -24,6 +25,7 @@ public:
 protected:
     ProxySession& p_session = ProxySession::instance();
     ProxyRenderer& p_renderer = ProxyRenderer::instance();
+	ProxyUIWindowMgr& p_windowmgr = ProxyUIWindowMgr::instance();
     norm* c_state;
     void print_to_chat(char* msg);
 
@@ -37,6 +39,15 @@ public: //hide later with private and friendclass
     virtual void send_msg(void**, int*, int*, int*, int*, int*)
     {
     }
+#endif
+#if ((CLIENT_VER <= 20180919 && CLIENT_VER >= 20180620) || CLIENT_VER_RE == 20180621)
+	virtual void send_msg_after(void**, int*, void**, void**, int*, int*)
+	{
+	}
+#elif CLIENT_VER == 20150000
+	virtual void send_msg_after(void**, int*, int*, int*, int*, int*)
+	{
+	}
 #endif
     virtual HRESULT begin_scene(IDirect3DDevice7**)
     {
