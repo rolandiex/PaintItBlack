@@ -171,6 +171,7 @@
     <ClInclude Include="CProxyIDirectDraw7.h" />
     <ClInclude Include="FastFont.h" />
     <ClInclude Include="hook.h" />
+    <ClInclude Include="hook_bookwnd.h" />
     <ClInclude Include="hook_gamemode.h" />
     <ClInclude Include="hook_chat.h" />
     <ClInclude Include="client_ver.h" />
@@ -179,6 +180,7 @@
     <ClInclude Include="hook_dx.h" />
     <ClInclude Include="hook_session.h" />
     <ClInclude Include="hook_user32.h" />
+    <ClInclude Include="hook_windowmgr.h" />
     <ClInclude Include="json.h" />
     <ClInclude Include="mod.h" />
     <ClInclude Include="mod_debug.h" />
@@ -207,6 +209,7 @@
     <ClCompile Include="CProxyIDirectDraw7.cpp" />
     <ClCompile Include="FastFont.cpp" />
     <ClCompile Include="hook.cpp" />
+    <ClCompile Include="hook_bookwnd.cpp" />
     <ClCompile Include="hook_chat.cpp" />
     <ClCompile Include="debug_socket.cpp" />
     <ClCompile Include="dllmain.cpp" />
@@ -214,6 +217,7 @@
     <ClCompile Include="hook_gamemode.cpp" />
     <ClCompile Include="hook_session.cpp" />
     <ClCompile Include="hook_user32.cpp" />
+    <ClCompile Include="hook_windowmgr.cpp" />
     <ClCompile Include="mod.cpp" />
     <ClCompile Include="mod_debug.cpp" />
     <ClCompile Include="mod_config.cpp" />

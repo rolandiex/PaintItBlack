@@ -168,6 +168,12 @@
     <ClInclude Include="mod_config.h">
       <Filter>Headerdateien\mods</Filter>
     </ClInclude>
+    <ClInclude Include="hook_windowmgr.h">
+      <Filter>Headerdateien\hooks</Filter>
+    </ClInclude>
+    <ClInclude Include="hook_bookwnd.h">
+      <Filter>Headerdateien\hooks</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -249,10 +255,16 @@
       <Filter>Quelldateien\mods</Filter>
     </ClCompile>
     <ClCompile Include="mod_debug.cpp">
-       <Filter>Quelldateien\mods</Filter>
+      <Filter>Quelldateien\mods</Filter>
     </ClCompile>
     <ClCompile Include="mod_config.cpp">
       <Filter>Quelldateien\mods</Filter>
+    </ClCompile>
+    <ClCompile Include="hook_windowmgr.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="hook_bookwnd.cpp">
+      <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
