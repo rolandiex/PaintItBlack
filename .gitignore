@@ -21,3 +21,5 @@ Release/norm.lib
 *.pchast
 /packages/Microsoft.Gsl.0.1.2.1
 *.lastcodeanalysissucceeded
+/.vs/PaintItBlack/v15
+/.vs
