@@ -9,7 +9,6 @@ public:
     overlay_new(norm_dll::norm* c_state, std::shared_ptr<graphics> g, json* config);
 	virtual ~overlay_new();
 	void get_current_setting(json& setting);
-//	HRESULT begin_scene(IDirect3DDevice7**);
     
 private:
 	int initialized = 0;
