@@ -55,7 +55,7 @@ void overlay_new::get_current_setting(json& setting)
 
 int overlay_new::get_talk_type(char* src, int* retval)
 {
-    if (strcmp((char*)*src, "/ping") == 0) {
+    if (strcmp(src, "/ping") == 0) {
         this->display_ping ^= 1;
         char buf[64];
         if (this->display_ping)
@@ -67,7 +67,7 @@ int overlay_new::get_talk_type(char* src, int* retval)
         return 1;
     }
 
-    if (strcmp((char*)*src, "/fps") == 0) {
+    if (strcmp(src, "/fps") == 0) {
         this->display_fps ^= 1;
         char buf[64];
         if (this->display_fps)

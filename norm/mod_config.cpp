@@ -17,7 +17,7 @@ config::~config()
 
 int config::get_talk_type(char* src, int* retval)
 {
-    if (strcmp((char*)*src, "/savesettings") == 0) {
+    if (strcmp(src, "/savesettings") == 0) {
         json settings;
         for (auto mod_ : c_state->mods) {
             if (strcmp(typeid(*mod_).name() + 6, "config") == 0)

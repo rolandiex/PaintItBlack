@@ -1,7 +1,12 @@
 #include "stdafx.h"
+
 #include "hook_bookwnd.h"
 
-void norm_dll::ProxyUIBookWnd::open_book()
+#include "norm.h"
+#include "detours.h"
+
+namespace norm_dll {
+void ProxyUIBookWnd::open_book()
 {
 	char* id = (char*)"pib";
 	SendMsg(c_bookwnd, 0x0, 0x5E, id, 0xFD, 0x0, 0x0);
@@ -9,6 +14,19 @@ void norm_dll::ProxyUIBookWnd::open_book()
 	snprintf(item_name, 64, "Paint it Black Guide");
 }
 
-void norm_dll::ProxyUIBookWnd::hook(std::shared_ptr<norm_dll::norm> c_state)
+bool ProxyUIBookWnd::hooked = false;
+void ProxyUIBookWnd::hook(std::shared_ptr<norm_dll::norm> c_state)
 {
+	if (hooked)
+		return;
+
+	LONG err = 0;
+	int hook_count = 0;
+	char info_buf[256];
+
+	sprintf_s(info_buf, "UIBookWnd hooks available: %d", hook_count);
+	c_state->dbg_sock->do_send(info_buf);
+
+	hooked = true;
+}
 }

@@ -23,7 +23,7 @@ typedef bool(__thiscall* lpDrawScene)(void*);
 typedef signed int(__thiscall* lpGetTalkType)(void*, char*, int, char*);
 typedef void(__thiscall* lpRecalcAveragePingTime)(void*, unsigned long);
 
-#define PGETTALKTYPE_FN int __fastcall proxyGetTalkType(void* this_obj, DWORD EDX, char* a2, int a3, char* a4)
+#define PGETTALKTYPE_FN signed int __fastcall proxyGetTalkType(void* this_obj, DWORD EDX, char* a2, int a3, char* a4)
 
 //struct CSession {
 #define SESSION_DATA                      \

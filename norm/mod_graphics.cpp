@@ -6,9 +6,9 @@
 graphics::graphics(norm_dll::norm* c_state, json* config)
     : mod(c_state)
 {
-    if (config) {
-        this->vsync_active = config->at("vsync_default_on").get<BOOL>();
-    }
+	if (config) {
+		this->vsync_active = config->at("vsync_default_on").get<bool>();
+	}
 }
 
 graphics::~graphics()

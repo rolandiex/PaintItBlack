@@ -12,6 +12,7 @@
 #include "hook_socket.h"
 #include "hook_user32.h"
 #include "hook_renderer.h"
+#include "hook_windowmgr.h"
 
 #include "mod_graphics.h"
 #include "mod_overlay.h"
@@ -41,7 +42,7 @@ norm::norm(HINSTANCE hInst)
 
 void norm::install_mods()
 {
-    auto g = std::make_shared<graphics>(this, &mod_configs[typeid(overlay_new).name() + 6]);
+    auto g = std::make_shared<graphics>(this, &mod_configs[typeid(graphics).name() + 6]);
 
     // Disable a mod by commenting out the specific line.
     mods.push_back(std::make_shared<overlay_new>(this, g, &mod_configs[typeid(overlay_new).name() + 6]));
@@ -115,6 +116,9 @@ void norm::start()
 
 	auto& p_session = ProxySession::instance();
     p_session.hook(sptr);
+
+	//auto& p_windowmgr = ProxyUIWindowMgr::instance();
+	//p_windowmgr.hook(sptr);
 
     this->install_mods();
 

@@ -260,11 +260,11 @@
     <ClCompile Include="mod_config.cpp">
       <Filter>Quelldateien\mods</Filter>
     </ClCompile>
-    <ClCompile Include="hook_windowmgr.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
     <ClCompile Include="hook_bookwnd.cpp">
-      <Filter>Quelldateien</Filter>
+      <Filter>Quelldateien\hooks</Filter>
+    </ClCompile>
+    <ClCompile Include="hook_windowmgr.cpp">
+      <Filter>Quelldateien\hooks</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

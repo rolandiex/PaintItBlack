@@ -1,7 +1,6 @@
 #pragma once
 
 #include "client_ver.h"
-#include "singleton.h"
 
 #include <memory>
 
@@ -19,7 +18,7 @@ namespace norm_dll {
 		};
 
 		CUIBookWnd* c_bookwnd = nullptr;
-		bool hooked = false;
+		static bool hooked;
 		
 		lpSendMsg SendMsg = reinterpret_cast<lpSendMsg>(UIBOOKWND_SENDMSG_FN);
 		ProxyUIBookWnd() {}
