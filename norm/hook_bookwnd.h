@@ -19,16 +19,18 @@ namespace norm_dll {
 
 		CUIBookWnd* c_bookwnd = nullptr;
 		static bool hooked;
-		
-		lpSendMsg SendMsg = reinterpret_cast<lpSendMsg>(UIBOOKWND_SENDMSG_FN);
+
+		static lpSendMsg SendMsg;
+
+		static void __fastcall pSendMsg(void*, DWORD, int, int, char*, int, int, int);
 		ProxyUIBookWnd() {}
 
 	public:
-		ProxyUIBookWnd(std::shared_ptr<norm_dll::norm> c_state, UIFrameWnd* c_bookwnd) : 
-			c_state(c_state), c_bookwnd(reinterpret_cast<CUIBookWnd*>(c_bookwnd)) {}
+		ProxyUIBookWnd(std::shared_ptr<norm_dll::norm> c_state, UIFrameWnd* c_bookwnd);
 		~ProxyUIBookWnd() {}
 
 		void open_book();
+		void test();
 
 		static void hook(std::shared_ptr<norm_dll::norm> c_state);
 

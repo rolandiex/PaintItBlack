@@ -50,8 +50,9 @@ void ProxyRenderer::hook(std::shared_ptr<norm_dll::norm> c_state)
 bool __fastcall ProxyRenderer::pDrawScene(void* this_obj)
 {
     auto& instance = ProxyRenderer::instance();
-    if (!instance.c_renderer)
-        instance.init();
+	if (!instance.c_renderer) {
+		instance.init();
+	}
 
     bool res = (instance.DrawScene)(this_obj);
 

@@ -13,6 +13,7 @@
 #include "hook_user32.h"
 #include "hook_renderer.h"
 #include "hook_windowmgr.h"
+#include "hook.h"
 
 #include "mod_graphics.h"
 #include "mod_overlay.h"
@@ -105,6 +106,10 @@ void norm::start()
     //
     int total_hooks = 0;
     auto sptr = shared_from_this();
+
+	memman = new MemoryManager();
+	memman->hook(sptr);
+
     total_hooks += chat_detour(sptr);
     total_hooks += socket_detour(sptr);
     //total_hooks += renderer_detour(sptr);
