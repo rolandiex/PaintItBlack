@@ -30,6 +30,10 @@
 #define DLL_VER "RO_2015-05-13Ragexe"
 #include "20150513.h"
 
+#elif CLIENT_VER == 20151104
+#define DLL_VER "RO_2015-11-04Ragexe"
+#include "20151104.h"
+
 #elif CLIENT_VER == 20180620
 #define DLL_VER "RO_2018-06-20#2Ragexe"
 #include "20180620.h"

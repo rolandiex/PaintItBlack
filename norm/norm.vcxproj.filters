@@ -177,6 +177,9 @@
     <ClInclude Include="mod_info.h">
       <Filter>Headerdateien\mods</Filter>
     </ClInclude>
+    <ClInclude Include="20151104.h">
+      <Filter>Headerdateien\hooks\client_defines</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
