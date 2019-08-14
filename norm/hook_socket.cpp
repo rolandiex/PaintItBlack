@@ -37,12 +37,46 @@ int WINAPI recv_hook(SOCKET s, char* buf, int len, int flags)
 #endif /* COMENC */
 //#endif /* 20180620 */
 
+DWORD CRagConnection__SendPacket_func = 0x007EDA10;
+constexpr int BUF_SIZE = 256;
+
+char __fastcall CRagConnection__SendPacket_hook(void* this_obj, DWORD EDX, int count, int source)
+{
+	CRagConnection__SendPacket original_sendmsg = (CRagConnection__SendPacket)CRagConnection__SendPacket_func;
+
+	char buf[BUF_SIZE];
+	int content_size = 0;
+	sprintf_s(buf, "Packet data: ");
+	content_size = strlen(buf) + count;
+	if (content_size * 5 > BUF_SIZE - 1) {
+		c_state->dbg_sock->do_send("SendPacket_hook: Buffer was too small!");
+	}
+	else {
+		for (int i = 0; i < count; i++) {
+			char tmp[10];
+			sprintf_s(tmp, "0x%x ", *reinterpret_cast<BYTE*>(source + i));
+			strcat_s(buf, tmp);
+		}
+		c_state->dbg_sock->do_send(buf);
+	}
+
+	return (original_sendmsg)(this_obj, count, source);
+}
+
 int socket_detour(std::shared_ptr<norm_dll::norm> state_)
 {
     int err = 0;
     int hook_count = 0;
     char info_buf[256];
     c_state = state_;
+
+	err = DetourAttach(&(LPVOID&)CRagConnection__SendPacket_func, &CRagConnection__SendPacket_hook);
+	CHECK(info_buf, err);
+	if (err == NO_ERROR) {
+		hook_count++;
+	}
+	else
+		c_state->dbg_sock->do_send(info_buf);
 
 #ifdef COMENC
     err = DetourAttach(&(LPVOID&)pSend, &send_hook);

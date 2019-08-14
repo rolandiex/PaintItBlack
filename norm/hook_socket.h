@@ -7,3 +7,5 @@
 
 int socket_detour(std::shared_ptr<norm_dll::norm> c_state);
 
+typedef char(__thiscall *CRagConnection__SendPacket)(void*, int count, int source);
+
