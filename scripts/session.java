@@ -5,7 +5,6 @@
 //@menupath 
 //@toolbar 
 
-
 import ghidra.app.script.GhidraScript;
 import ghidra.program.model.util.*;
 import ghidra.program.model.reloc.*;
@@ -19,18 +18,21 @@ import ghidra.program.model.lang.*;
 import ghidra.program.model.pcode.*;
 import ghidra.program.model.address.*;
 
-public class session extends GhidraScript {
-	Logger logger;
-	
-	public void find_GetTalkType()
-	{
-		
-	}
-	
-    public void run() throws Exception 
-    {
-    	//logger = new Logger(false, "find_GetTalkType");
-    	find_GetTalkType();
+public class Session extends GhidraScript {
+
+	public void run() throws Exception {
+		/* header and static things */
+		print("//\n");
+		print("// CSession defines\n");
+		print("//\n");
+		print("typedef signed int(__thiscall* lpGetTalkType)(void*, char*, int, char*);\n");
+		print("typedef void(__thiscall* lpRecalcAveragePingTime)(void*, unsigned long);\n");
+		print("\n");
+		print("//struct CSession {\n");
+		print("#define SESSION_DATA   \\\n");
+		print("\tTODO\n");
+		print("//};\n");
+
     }
 
 }

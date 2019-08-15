@@ -29,7 +29,7 @@ public class PiBLib {
 	
 	public Set<Function> string_to_reflist(String str) {
 		Address str_addr = caller.find(str);
-		logger.print("find_DrawScene: str_addr: 0x" + str_addr);
+		logger.print("PiBLib.string_to_reflist: str_addr: 0x" + str_addr);
 		ReferenceIterator iter = caller.getCurrentProgram().getReferenceManager().getReferencesTo(str_addr);
 		
 		Set<Function> func_set = new HashSet<>();
