@@ -6,7 +6,7 @@ class timestamp :
 public:
     timestamp(norm_dll::norm* c_state, json* config);
 	virtual ~timestamp();
-	void send_msg(void**, int*, void**, void**, int*, int*);
+	void send_msg(void**, int*, void**, int*, int*, int*);
 	void send_msg(void**, int*, int*, int*, int*, int*);
 	void get_current_setting(json& setting);
 

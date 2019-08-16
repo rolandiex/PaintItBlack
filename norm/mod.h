@@ -32,7 +32,7 @@ protected:
 public: //hide later with private and friendclass
     virtual void get_current_setting(json& setting) { setting = json({}); };
 #if ((CLIENT_VER <= 20180919 && CLIENT_VER >= 20180620) || CLIENT_VER_RE == 20180621)
-    virtual void send_msg(void**, int*, void**, void**, int*, int*)
+    virtual void send_msg(void**, int*, void**, int*, int*, int*)
     {
     }
 #elif CLIENT_VER == 20150000
@@ -41,7 +41,7 @@ public: //hide later with private and friendclass
     }
 #endif
 #if ((CLIENT_VER <= 20180919 && CLIENT_VER >= 20180620) || CLIENT_VER_RE == 20180621)
-	virtual void send_msg_after(void**, int*, void**, void**, int*, int*)
+	virtual void send_msg_after(void**, int*, void**, int*, int*, int*)
 	{
 	}
 #elif CLIENT_VER == 20150000

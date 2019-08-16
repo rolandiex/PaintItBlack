@@ -21,7 +21,7 @@ DWORD UIWindowMgr_SendMsg_func = 0x00720610;
 DWORD UIWindowMgr_SendMsg_func = 0x0071ED80;
 
 #endif
-int __fastcall UIWindowMgr_SendMsg_hook(void* this_obj, DWORD EDX, int a1, void* a2, void* a3, int a4, int a5)
+int __fastcall UIWindowMgr_SendMsg_hook(void* this_obj, DWORD EDX, int a1, void* a2, int a3, int a4, int a5)
 
 #elif CLIENT_VER == 20150000
 DWORD UIWindowMgr_SendMsg_func = 0x005F4CA0;

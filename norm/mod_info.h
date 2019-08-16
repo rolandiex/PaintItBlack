@@ -9,7 +9,7 @@ public:
 	bool init = false;
 	bool welcome = false;
 
-	void send_msg_after(void**, int*, void**, void**, int*, int*);
+	void send_msg_after(void**, int*, void**, int*, int*, int*);
 	void send_msg_after(void**, int*, int*, int*, int*, int*);
 	int get_talk_type(char*, int*);
 };

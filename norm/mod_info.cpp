@@ -24,7 +24,7 @@ int info::get_talk_type(char* src, int* retval)
 }
 
 #if ((CLIENT_VER <= 20180919 && CLIENT_VER >= 20180620) || CLIENT_VER_RE == 20180621)
-void info::send_msg_after(void** this_obj, int* a1, void** a2, void** a3, int* a4, int* a5)
+void info::send_msg_after(void** this_obj, int* a1, void** a2, int*	  a3, int* a4, int* a5)
 #elif CLIENT_VER == 20150000
 void info::send_msg_after(void** this_obj, int* a1, int*   a2, int*   a3, int* a4, int* a5)
 #endif
