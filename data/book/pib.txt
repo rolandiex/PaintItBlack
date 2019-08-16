@@ -43,8 +43,3 @@ Also, further informations about the features will be described in order to make
  It will be loaded when you restart the client so it won't be necessary to enable/disable
  the commonly used features everytime the client is started.
 ^400080 Command Usage ^000000: /savesettings
-
-»^EE0000 Flywing Trace ^000000
-
-^400080 Description ^000000: Marks your last flywing positions on the map.
-^400080 Command Usage ^000000: /fwtrace
