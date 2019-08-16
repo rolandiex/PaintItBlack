@@ -62,6 +62,7 @@ typedef void(__thiscall* lpRecalcAveragePingTime)(void*, unsigned long);
 // CUIWindowMgr defines
 //
 #define UIWINDOWMGR_MAKEWINDOW_FN 0x00711d20
+#define UIWINDOWMGR_PTR 0x00e6ec88
 
 struct UIFrameWnd {};
 typedef UIFrameWnd* (__thiscall* lpMakeWindow)(void*, int);
