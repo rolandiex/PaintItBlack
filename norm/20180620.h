@@ -57,3 +57,23 @@ typedef void(__thiscall* lpRecalcAveragePingTime)(void*, unsigned long);
 #define GETTALKTYPE_FN				0x00A0CF40
 #define RECALCAVERAGEPINGTIME_FN	0x00A1F510
 #define SESSION_PTR					0x010130C8
+
+//
+// CUIWindowMgr defines
+//
+#define UIWINDOWMGR_MAKEWINDOW_FN 0x00711d20
+
+struct UIFrameWnd {};
+typedef UIFrameWnd* (__thiscall* lpMakeWindow)(void*, int);
+
+	// sub types
+	// CUIBookWnd
+	#define UIBOOKWND_SENDMSG_FN 0x00613900
+
+	typedef void(__thiscall* lpSendMsg)(void*, int, int, char*, int, int, int);
+	//struct CUIBookWnd {
+	#define UIBOOKWND_DATA		\
+		/* 0x0	*/ BYTE offset0[0x9c];	\
+		/* 0x9c	*/ char book_title[64];
+	//}
+
