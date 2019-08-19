@@ -31,7 +31,6 @@ import ghidra.program.model.address.*;
 
 public class UIWindowMgr extends GhidraScript {
 	final int INSTR_COUNT = 9;		
-	final boolean DEBUG = false;	// Enables/disables debug prints.
 	boolean DRY_RUN = true;			// Does not apply changes to the ghidra database.
 	PiBLib pib;
 	
@@ -39,68 +38,9 @@ public class UIWindowMgr extends GhidraScript {
 	public static final String ANSI_RED = "\u001B[31m";
 	public static final String ANSI_GREEN = "\u001B[32m";
 	public static final String ANSI_CYAN = "\u001B[36m";
-
-	/* simple hex to 'signature' */
-	public String toSignature(String signature) {
-		return "\\x" + signature.replace(" ", "\\x");
-	}
-	
-	/* simple debug print */
-	public void printdbg(String str) {
-		if (DEBUG)
-			println(str);
-	}
-	
-	public int checkDate() throws MemoryAccessException {
-		/* Check date */
-		String ragexe = toSignature("44 3a 5c 53 6f 75 72 63 65 5c 4b 6f 72 65 61 5c 52 4f 5f");
-		printdbg("Looking for: " + ragexe);
-		
-		Address ragexe_addr = findBytes(null, ragexe);
-		if(ragexe_addr == null) {
-			printerr("Unable to find client date!");
-			return -1;
-		}
-		
-		printdbg("Client date: " + ragexe_addr);
-		byte[] bytes = new byte[256];
-		int c = 0;
-		while(true) {
-			if (getByte(ragexe_addr) == 0)
-				break;
-			
-			if (c > 255)
-				break;
-			
-			bytes[c] = getByte(ragexe_addr);
-			ragexe_addr = ragexe_addr.next();
-			c++;
-		}
-		String byte_str = new String(bytes, StandardCharsets.UTF_8);
-		printdbg("Client date string: " + byte_str);
-		
-		String client_date_str = null;
-		var split_str = byte_str.split("\\\\");
-		for (var substr : split_str) {
-			printdbg("Substr: " + substr);
-			if (substr.startsWith("RO_")) {
-				client_date_str = substr.replace("RO_", "").replace("-", "");
-				printdbg("Client date number: " + client_date_str);
-				break;
-			}	
-		}
-		
-		if (client_date_str == null) {
-			printerr("Failed to get Client date!");
-			return -1;
-		}
-		
-		var client_date_split = client_date_str.split("#");
-		return Integer.parseInt(client_date_split[0]);
-		
-	}
 	
 	public void run() throws Exception {
+		pib = new PiBLib(true, "none", this);
 		String[] args = getScriptArgs();
 		boolean TEST_RUN = false;
 		boolean HEADLESS = false;
@@ -144,12 +84,11 @@ public class UIWindowMgr extends GhidraScript {
 	}
 
     public String execute() throws Exception {
-    	pib = new PiBLib(false, "none", this);
 		FunctionManager fm = this.getCurrentProgram().getFunctionManager();
 		
 		String output = "\n";
 		
-		int client_date = checkDate();
+		int client_date = pib.checkDate();
 		if (client_date == -1) {
 			printerr("Client date was not found!");
 			return "";
@@ -158,8 +97,8 @@ public class UIWindowMgr extends GhidraScript {
     	//////////////////////////////////////////////////////////////////////////////////////////////////////////
     	// Searching for UIWindowMgr__MakeWindow
     	//
-		String sig = toSignature("e8.{0,4} 8b c8 e8.{0,4} 50 e8.{0,4} 8b c8 e8.{0,4} 6a 06 b9.{0,4} e8.{0,4} 6a 01 6a 10 6a 7a 8b f0 e8.{0,4}");
-		printdbg("Looking for: " + sig);
+		String sig = pib.toSignature("e8.{0,4} 8b c8 e8.{0,4} 50 e8.{0,4} 8b c8 e8.{0,4} 6a 06 b9.{0,4} e8.{0,4} 6a 01 6a 10 6a 7a 8b f0 e8.{0,4}");
+		pib.log("Looking for: " + sig);
 		
 		Address sig_addr = findBytes(null, sig);
 		if (sig_addr == null) {
@@ -167,13 +106,13 @@ public class UIWindowMgr extends GhidraScript {
 			return "";
 		}
 		
-		printdbg("Signature found at: " + sig_addr.toString());
+		pib.log("Signature found at: " + sig_addr.toString());
 		
 		var instr = getInstructionAt(sig_addr);
 		for (int i = 0; i < INSTR_COUNT; i++) // Its the 9. instruction after the signature address
 			instr = instr.getNext();
 		
-		printdbg("UIWindowMgr__MakeWindow: " + instr.toString());
+		pib.log("UIWindowMgr__MakeWindow: " + instr.toString());
 		
 		/* header */
 		output += "//\n";
@@ -185,24 +124,24 @@ public class UIWindowMgr extends GhidraScript {
 		output += "#define UIWINDOWMGR_MAKEWINDOW_FN 0x" + addr + "\n";
 		
 		/* get UIWindowMgr_PTR */
-		printdbg("Searching UIWindowMgr_PTR. Start search at: " + instr.getAddress().toString());
+		pib.log("Searching UIWindowMgr_PTR. Start search at: " + instr.getAddress().toString());
 		Address tmp = null;
 		for (int i = 0; i < 5; /* only check the previous 5 instructions */ i++) {
 			 tmp = instr.getPrevious().getAddress(); // instr: CALL UIWindowMgr_MakeWindow
 			 if (getByte(tmp) == 0xb9) { // looking for mov ecx
-				 printdbg("UIWindowMgr_PTR: MOV ECX found!");
+				 pib.log("UIWindowMgr_PTR: MOV ECX found!");
 				 break;
 			 }
 		}
 		
 		var mov_ecx = getInstructionAt(tmp); // this should be MOV ECX, UIWINDOWMGR_PTR now!
-		printdbg("UIWindowMgr_PTR: " + mov_ecx);
+		pib.log("UIWindowMgr_PTR: " + mov_ecx);
 		var UIWindowMgr_PTR = parseAddress(mov_ecx.toString().replace("MOV ECX,", ""));
-		printdbg("UIWindowMgr_PTR address: " + UIWindowMgr_PTR);
+		pib.log("UIWindowMgr_PTR address: " + UIWindowMgr_PTR);
 		output += "#define UIWINDOWMGR_PTR 0x" + UIWindowMgr_PTR.toString();
 		
 		/* set function parameters */
-		printdbg("Config function UIWINDOWMGR_MAKEWINDOW_FN: " + addr);
+		pib.log("Config function UIWINDOWMGR_MAKEWINDOW_FN: " + addr);
 		var UIWindowMgr_MakeWindow_fn = fm.getFunctionContaining(addr);
 		UIWindowMgr_MakeWindow_fn.setName("UIWindowMgr::MakeWindow", SourceType.USER_DEFINED);
 		
@@ -237,23 +176,23 @@ public class UIWindowMgr extends GhidraScript {
 		
 		
 		/* search function */
-		Set<Function> func_set = pib.string_to_reflist("%sbook\\%s.txt");
+		Set<Function> func_set = (Set<Function>)pib.string_to_reflist(LISTTYPE.SET, "%sbook\\%s.txt");
 		
 		Function func_addr = null;
 		Function func_addr_tmp = null;
 		int counter = 0;
-		sig = toSignature("6a 00 6a 00 6a 00 68.{0,4} 6a 06");
+		sig = pib.toSignature("6a 00 6a 00 6a 00 68.{0,4} 6a 06");
 		for(Iterator<Function> it = func_set.iterator(); it.hasNext();) {
 			func_addr = it.next();
 			if (func_addr == null) {
-				printdbg("func_addr was null!");
+				pib.log("func_addr was null!");
 				continue;
 			}
 			
 			var sig_addr_lst = findBytes(func_addr.getBody(), sig, 1, 2, false);
 			if (sig_addr_lst.length > 0) {
-				printdbg("Func_addr: " + func_addr);
-				printdbg("Signature found at: " + sig_addr_lst[0]);
+				pib.log("Func_addr: " + func_addr);
+				pib.log("Signature found at: " + sig_addr_lst[0]);
 				func_addr_tmp = func_addr;
 				counter++;
 			}
@@ -266,7 +205,7 @@ public class UIWindowMgr extends GhidraScript {
 		
 		func_addr = func_addr_tmp ;
 			
-		printdbg("UIBookWnd__SendMsg: " + func_addr.getEntryPoint());
+		pib.log("UIBookWnd__SendMsg: " + func_addr.getEntryPoint());
 		output += "\t#define UIBOOKWND_SENDMSG_FN 0x" + func_addr.getEntryPoint() + "\n";
 		
 		/* set function parameters */
@@ -303,21 +242,21 @@ public class UIWindowMgr extends GhidraScript {
 		//
 		// Searching for book_title location
 		//
-		sig = toSignature("8d 86.{4} 50 8b ce e8.{4}");
+		sig = pib.toSignature("8d 86.{4} 50 8b ce e8.{4}");
 		var tmp_sig_addr = findBytes(UIBookWnd_SendMsg_fn.getBody(), sig, 1, 1, false);
 		if (tmp_sig_addr == null || tmp_sig_addr.length != 2) {
 			if (tmp_sig_addr != null)
-				printdbg("Size: " + tmp_sig_addr.length);
+				pib.log("Size: " + tmp_sig_addr.length);
 			for (var f : tmp_sig_addr)
-				printdbg(f.toString());
+				pib.log(f.toString());
 			printerr("Book Title signature: Error!");
 			return "";
 		}
-		printdbg("BookTitle signature: " + tmp_sig_addr[0]);
+		pib.log("BookTitle signature: " + tmp_sig_addr[0]);
 		
 		var offset_tmp = getByte(tmp_sig_addr[0].add(2)); // get the first signature
 		var book_title_offset = String.format("%02x", offset_tmp);
-		printdbg("BookTitle offset: " + book_title_offset);
+		pib.log("BookTitle offset: " + book_title_offset);
 		
 		output += "\t\t/* 0x0	*/ BYTE offset0[0x" + book_title_offset + "];	\\\n";
 		output += "\t\t/* 0x" + book_title_offset +"	*/ char book_title[64];\n";
@@ -338,7 +277,7 @@ public class UIWindowMgr extends GhidraScript {
      * is based on already known and confirmed outputs.
      */
     public boolean test(String output) throws MemoryAccessException {
-    	int client_date = checkDate();
+    	int client_date = pib.checkDate();
     	
     	/* Test 20150513 client output */
     	if (client_date == 20150513) {
