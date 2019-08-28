@@ -24,6 +24,7 @@
 #include "mod_config.h"
 #include "mod_info.h"
 
+
 #include <tchar.h>
 #include <winhttp.h>
 #include <fstream>
@@ -51,7 +52,7 @@ void norm::install_mods()
     INSTALL_MOD(timestamp);
     INSTALL_MOD(rpc);
     //INSTALL_MOD(statistics);
-	INSTALL_MOD(info);
+	  INSTALL_MOD(info);
     mods.push_back(g);
     INSTALL_MOD(config);
 }
