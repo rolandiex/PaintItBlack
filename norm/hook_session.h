@@ -112,7 +112,7 @@ private:
 		{ 4016, { "Champion",		"champion" } },
 		{ 4017, { "Professor",		"professor" } },
 		{ 4018, { "Stalker",		"stalker" } },
-		{ 4019, { "Creator",		"creator" } },
+		{ 4019, { "Creator",		"biochemist" } },
 		{ 4020, { "Clown",		"clown" } },
 		{ 4021, { "Gypsy",		"gypsy" } },
 		{ 4022, { "Paladin",		"paladin" } },

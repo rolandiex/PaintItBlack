@@ -13,7 +13,7 @@ class rpc : public norm_dll::mod
     int get_talk_type(char*, int*);
     void draw_scene(void* this_obj);
 
-	const char* APPLICATION_ID = "570835350193176579";
+	const char* APPLICATION_ID = "616265739728322570";
     int64_t StartTime;
     int SendPresence = 1;
 };
