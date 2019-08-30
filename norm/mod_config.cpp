@@ -15,13 +15,9 @@ config::~config()
 {
 }
 
-#if ((CLIENT_VER <= 20180919 && CLIENT_VER >= 20180620) || CLIENT_VER_RE == 20180621)
-int config::get_talk_type(void** this_obj, void** src, int* a1, int* a2, int* retval)
-#elif CLIENT_VER == 20150000
-int config::get_talk_type(void** this_obj, char** src, int* a1, char** a2, int* retval)
-#endif
+int config::get_talk_type(char* src, int* retval)
 {
-    if (strcmp((char*)*src, "/savesettings") == 0) {
+    if (strcmp(src, "/savesettings") == 0) {
         json settings;
         for (auto mod_ : c_state->mods) {
             if (strcmp(typeid(*mod_).name() + 6, "config") == 0)

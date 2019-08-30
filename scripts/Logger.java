@@ -1,11 +1,11 @@
-import ghidra.app.script.GhidraScript;
-
 //A helper class for logging debug messages.
 //@author Norman Ziebal
 //@category pib.lib
 //@keybinding 
 //@menupath 
 //@toolbar 
+import ghidra.app.script.GhidraScript;
+
 public class Logger {
 	private boolean debug = false; // If this is set all debug prints are displayed.
 	private String dfunc = "none"; // Print only debug from this function. 

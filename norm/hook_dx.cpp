@@ -1,4 +1,5 @@
 #include "stdafx.h"
+
 #include "norm.h"
 #include "hook_dx.h"
 #include "detours.h"

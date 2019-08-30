@@ -6,13 +6,12 @@ class timestamp :
 public:
     timestamp(norm_dll::norm* c_state, json* config);
 	virtual ~timestamp();
-	void send_msg(void**, int*, void**, void**, int*, int*);
+	void send_msg(void**, int*, void**, int*, int*, int*);
 	void send_msg(void**, int*, int*, int*, int*, int*);
-	int get_talk_type(void**, void**, int*, int*, int*);
-	int get_talk_type(void**, char**, int*, char**, int*);
-    void get_current_setting(json& setting);
+	void get_current_setting(json& setting);
 
 private:
+	int get_talk_type(char*, int*);
 	int enabled = 1;
     std::string time_format = "%H:%M:%S";
 	char msg_buf[256] = { 0 };

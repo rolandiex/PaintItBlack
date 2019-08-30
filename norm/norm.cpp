@@ -8,17 +8,22 @@
 #include "hook_chat.h"
 #include "hook_dx.h"
 #include "hook_gamemode.h"
-#include "hook_renderer.h"
 #include "hook_session.h"
 #include "hook_socket.h"
 #include "hook_user32.h"
+#include "hook_renderer.h"
+#include "hook_windowmgr.h"
 
 #include "mod_graphics.h"
 #include "mod_overlay.h"
 #include "mod_overlay_new.h"
 #include "mod_statistics.h"
 #include "mod_timestamp.h"
+#include "mod_rpc.h"
+#include "mod_debug.h"
 #include "mod_config.h"
+#include "mod_info.h"
+
 
 #include <tchar.h>
 #include <winhttp.h>
@@ -39,12 +44,16 @@ norm::norm(HINSTANCE hInst)
 
 void norm::install_mods()
 {
+    auto g = std::make_shared<graphics>(this, &mod_configs[typeid(graphics).name() + 6]);
+
     // Disable a mod by commenting out the specific line.
-    //INSTALL_MOD(overlay);
-    //INSTALL_MOD(statistics);
+    mods.push_back(std::make_shared<overlay_new>(this, g, &mod_configs[typeid(overlay_new).name() + 6]));
+    mods.push_back(std::make_shared<debug>(this, g));
     INSTALL_MOD(timestamp);
-    INSTALL_MOD(overlay_new);
-    INSTALL_MOD(graphics);
+    INSTALL_MOD(rpc);
+    //INSTALL_MOD(statistics);
+	  INSTALL_MOD(info);
+    mods.push_back(g);
     INSTALL_MOD(config);
 }
 
@@ -99,11 +108,20 @@ void norm::start()
     auto sptr = shared_from_this();
     total_hooks += chat_detour(sptr);
     total_hooks += socket_detour(sptr);
-    total_hooks += renderer_detour(sptr);
-    total_hooks += session_detour(sptr);
+    //total_hooks += renderer_detour(sptr);
+    //total_hooks += session_detour(sptr);
     total_hooks += dx_detour(sptr);
     total_hooks += gamemode_detour(sptr);
     total_hooks += user32_detour(sptr);
+
+	auto& p_renderer = ProxyRenderer::instance();
+    p_renderer.hook(sptr);
+
+	auto& p_session = ProxySession::instance();
+    p_session.hook(sptr);
+
+	auto& p_windowmgr = ProxyUIWindowMgr::instance();
+	p_windowmgr.hook(sptr);
 
     this->install_mods();
 

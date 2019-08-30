@@ -53,7 +53,7 @@ if __name__ == "__main__":
         except ValueError:
             pass
 
-    server = ThreadedServer('127.0.0.1',port_num)
+    server = ThreadedServer('0.0.0.0',port_num)
     server.listen()
 
 

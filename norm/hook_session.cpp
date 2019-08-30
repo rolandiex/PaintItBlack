@@ -1,10 +1,15 @@
 #include "stdafx.h"
-#include "hook_session.h"
+
+#include "hook.h"
 #include "hook_gamemode.h"
+#include "hook_session.h"
+
 #include "detours.h"
+#include "norm.h"
 
-#pragma warning(disable: 26440) // Suppress "noexcept" warning
+#pragma warning(disable : 26440) // Suppress "noexcept" warning
 
+namespace norm_dll {
 static std::shared_ptr<norm_dll::norm> c_state;
 int init_ping_calls = 2;
 
@@ -13,45 +18,27 @@ int init_ping_calls = 2;
  * /goldpc
  */
 #if ((CLIENT_VER <= 20180919 && CLIENT_VER >= 20180620) || CLIENT_VER_RE == 20180621)
-#if CLIENT_VER_RE == 20180621
-DWORD GetTalkType_func = 0x00AC7D90;
-
-#elif (CLIENT_VER == 20180620 || CLIENT_VER == 20180621)
-DWORD GetTalkType_func = 0x00A0CF40;
-
-#elif CLIENT_VER == 20180919
-DWORD GetTalkType_func = 0x00A0EC10;
-
-#endif
-typedef int(__thiscall *GetTalkType)(void*, void*, int, int);
-
-// __thiscall to __fastcall workaround with EDX.
-int __fastcall GetTalkType_hook(void *this_obj, DWORD EDX, void* a2, int a3, int a4)
+int __fastcall ProxySession::proxyGetTalkType(void* this_obj, DWORD EDX, void* a2, int a3, int a4)
 {
 #elif CLIENT_VER == 20150000
-DWORD GetTalkType_func = 0x00925100;
-
-typedef  signed int(__thiscall *GetTalkType)(void*, char*, int, char*);
-
-// __thiscall to __fastcall workaround with EDX.
-signed int __fastcall GetTalkType_hook(void *this_obj, DWORD EDX, char *a2, int a3, char *a4)
+signed int __fastcall ProxySession::proxyGetTalkType(void* this_obj, DWORD EDX, char* a2, int a3, char* a4)
 {
 #endif
-	GetTalkType original_GetTalkType = (GetTalkType)GetTalkType_func;
+    auto& instance = ProxySession::instance();
 
-	int cret = 0;
-	int retval = 0;
+    int cret = 0;
+    int retval = 0;
 
-	for (auto callback : c_state->mods)
-		cret += callback->get_talk_type(&this_obj, &a2, &a3, &a4, &retval);
+    for (auto callback : instance.c_state->mods)
+        cret += callback->get_talk_type(reinterpret_cast<char*>(a2), &retval);
 
-	if (cret == 1)
-		return retval;
+    if (cret == 1)
+        return retval;
 
-	if (cret > 1)
-		c_state->dbg_sock->do_send("Error: Multiple GetTalkType hooks want to return a value.");
+    if (cret > 1)
+        instance.c_state->dbg_sock->do_send("Error: Multiple GetTalkType hooks want to return a value.");
 
-	return original_GetTalkType(this_obj, a2, a3, a4);
+    return (instance.GetTalkType)(this_obj, a2, a3, a4);
 }
 
 /*
@@ -59,89 +46,124 @@ signed int __fastcall GetTalkType_hook(void *this_obj, DWORD EDX, char *a2, int 
  * %10.2f\t%10d\n
  * Found function will call RecalcAveragePingTime at the end.
  */
-#if CLIENT_VER == 20150000
-DWORD CSession__RecalcAveragePingTime_func = 0x00935560;
-typedef  void(__thiscall *CSession__RecalcAveragePingTime)(void*, unsigned long);
-
-#elif ((CLIENT_VER <= 20180919 && CLIENT_VER >= 20180620) || CLIENT_VER_RE == 20180621)
-#if CLIENT_VER_RE == 20180621
-DWORD CSession__RecalcAveragePingTime_func = 0x00ADA470;
-
-#elif (CLIENT_VER == 20180620 || CLIENT_VER == 20180621)
-DWORD CSession__RecalcAveragePingTime_func = 0x00A1F510;
-
-#elif CLIENT_VER == 20180919
-DWORD CSession__RecalcAveragePingTime_func = 0x00A212D0;
-#endif
-typedef  void(__thiscall *CSession__RecalcAveragePingTime)(void*, unsigned long);
-#endif
-
-void __fastcall CSession__RecalcAveragePingTime_hook(void* this_obj, DWORD EDX, unsigned long a1)
+void __fastcall ProxySession::proxyRecalcAveragePingTime(void* this_obj, DWORD EDX, unsigned long a1)
 {
-	CSession__RecalcAveragePingTime original_recalc = (CSession__RecalcAveragePingTime)CSession__RecalcAveragePingTime_func;
-	c_state->dbg_sock->do_send("CSession__RecalcAveragePingTime called!");
+    auto& instance = ProxySession::instance();
+    instance.c_state->dbg_sock->do_send("CSession__RecalcAveragePingTime called!");
 
-	char buf[64];
-	sprintf_s(buf, "Arg: %lu", a1);
-	c_state->dbg_sock->do_send(buf);
+    char buf[64];
+    sprintf_s(buf, "Arg: %lu", a1);
+    instance.c_state->dbg_sock->do_send(buf);
 
-	print_time(c_state.get());
+    print_time(instance.c_state.get());
 
-	if (init_ping_calls > 0) {
-		init_ping_calls--;
-		return;
-	}
+    if (init_ping_calls > 0) {
+        init_ping_calls--;
+        return;
+    }
 
-	if (!initialize_called())
-		original_recalc(this_obj, a1);
+    if (!initialize_called())
+        (instance.RecalcAveragePingTime)(this_obj, a1);
 }
 
-int session_detour(std::shared_ptr<norm_dll::norm> state_) {
-	LONG err = 0;
-	int hook_count = 0;
-	char info_buf[256];
-	c_state = state_;
+void ProxySession::hook(std::shared_ptr<norm_dll::norm> state_)
+{
+    if (hooked)
+        return;
 
-	err = DetourAttach(&(LPVOID&)GetTalkType_func, &GetTalkType_hook);
-	CHECK(info_buf, err);
-	if (err == NO_ERROR) {
-		hook_count++;
-	} else 
-		c_state->dbg_sock->do_send(info_buf);
+    LONG err = 0;
+    int hook_count = 0;
+    char info_buf[256];
+    this->c_state = state_;
 
-	err = DetourAttach(&(LPVOID&)CSession__RecalcAveragePingTime_func, &CSession__RecalcAveragePingTime_hook);
-	CHECK(info_buf, err);
-	if (err == NO_ERROR) {
-		hook_count++;
-	}
-	else
-		c_state->dbg_sock->do_send(info_buf);
+    err = DetourAttach(&(LPVOID&)GetTalkType, &proxyGetTalkType);
+    CHECK(info_buf, err);
+    if (err == NO_ERROR) {
+        hook_count++;
+    } else
+        this->c_state->dbg_sock->do_send(info_buf);
 
-	sprintf_s(info_buf, "Session hooks available: %d", hook_count);
-	c_state->dbg_sock->do_send(info_buf);
+    err = DetourAttach(&(LPVOID&)RecalcAveragePingTime, &proxyRecalcAveragePingTime);
+    CHECK(info_buf, err);
+    if (err == NO_ERROR) {
+        hook_count++;
+    } else
+        this->c_state->dbg_sock->do_send(info_buf);
 
-	return hook_count;
+    sprintf_s(info_buf, "Session hooks available: %d", hook_count);
+    this->c_state->dbg_sock->do_send(info_buf);
+
+    this->hooked = true;
 }
 
-DWORD session_get_addr()
+#include <stdexcept>
+ULONG ProxySession::get_average_ping_time()
 {
-#if CLIENT_VER == 20180919
-    return 0x010178D0;
-#elif (CLIENT_VER == 20180620 || CLIENT_VER == 20180621)
-	return 0x010130C8;
-#elif CLIENT_VER_RE == 20180621
-	return 0x010D7F58;
-#elif CLIENT_VER == 20150000
-	return 0x00E0EE28;
-#endif
+    return this->c_session->average_ping_time;
 }
 
-ULONG session_get_averagePingTime()
+ULONG ProxySession::get_aid()
 {
-#if ((CLIENT_VER <= 20180919 && CLIENT_VER >= 20180620) || CLIENT_VER_RE == 20180621)
-	return *(ULONG*)(session_get_addr() + 0x630);
-#endif
-#if CLIENT_VER == 20150000
-	return *(ULONG*)(session_get_addr() + 0x634);
-#endif
+    return this->c_session->aid;
+}
+
+ULONG ProxySession::get_gid()
+{
+    return this->c_session->gid;
+}
+
+int ProxySession::get_exp()
+{
+    return this->c_session->exp;
+}
+
+int ProxySession::get_level()
+{
+    return this->c_session->level;
+}
+
+int ProxySession::get_next_exp()
+{
+    return this->c_session->next_exp;
+}
+
+int ProxySession::get_joblevel()
+{
+    return this->c_session->joblevel;
+}
+
+int ProxySession::get_jobnextexp()
+{
+    return this->c_session->jobnextexp;
+}
+
+int ProxySession::get_jobexp()
+{
+    return this->c_session->jobexp;
+}
+
+int ProxySession::get_skillpoints()
+{
+    return this->c_session->skillPoints;
+}
+
+const std::string& ProxySession::get_job_type()
+{
+    return this->job_map[this->get_job<int>()].name_type;
+}
+
+const char* ProxySession::get_name()
+{
+    return this->c_session->c_name;
+}
+
+const char* ProxySession::get_cur_map()
+{
+    return this->c_session->cur_map;
+}
+
+bool ProxySession::is_male()
+{
+	return this->c_session->sex;
+}
 }

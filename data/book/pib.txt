@@ -1,0 +1,45 @@
+%FAF0E6
+                                                ^000088Paint In Black - Quick User Guide^000000
+
+Here you can check a quick guide of how to use the features contained in this Mod Pack. 
+Also, further informations about the features will be described in order to make it clear.
+
+
+                                                            Feature List
+
+
+»^EE0000 Timestamp ^000000
+
+^400080 Description ^000000: Enable/Disable timestamps in the chat window.
+^400080 Command Usage ^000000: /timestamp
+^400080 Default ^000000: On
+^004000 Additional Information ^000000: By default, the timestamp feature use the HOUR:MINUTE pattern   
+ [HH:MM]. It's possible to customize it to show the seconds as well.  To do so, just edit the
+ timestamp format in pib_config.json file:  FROM "%H:%M"  TO  "%H:%M:%S"
+
+
+»^EE0000 Show Ping ^000000 
+
+^400080 Description ^000000: Enable/Disable average ping to server.
+^400080 Command Usage ^000000: /ping
+^400080 Default ^000000: Off
+
+»^EE0000 Show FPS ^000000
+
+^400080 Description ^000000: Enable/Disable FPS count in the client window.
+^400080 Command Usage ^000000: /fps
+^400080 Default ^000000: Off
+
+»^EE0000 Vsync ^000000
+
+^400080 Description ^000000: Enable/Disable vsync for the client. Vsync is a feature which will cap your FPS to 
+ 60 FPS if turned ON. Turning it OFF will boost your client FPS.
+^400080 Command Usage ^000000: /vsync
+^400080 Default ^000000: On
+
+»^EE0000 Savesettings ^000000
+
+^400080 Description ^000000: Save the current active client settings. 
+ It will be loaded when you restart the client so it won't be necessary to enable/disable
+ the commonly used features everytime the client is started.
+^400080 Command Usage ^000000: /savesettings
