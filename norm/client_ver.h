@@ -5,7 +5,7 @@
 #if not CI /* avoid having to uncomment below defines on each push */
 //#define CLIENT_VER 20180620 /* needs to fit the client date of the exe. */
 #define CLIENT_VER_RE 20180621
-#define DEBUG /* requires a debug-server listening on localhost:1337 */
+//#define DEBUG /* requires a debug-server listening on localhost:1337 */
 #endif
 
 /* simple macro for some debug output (used with the debug server) */

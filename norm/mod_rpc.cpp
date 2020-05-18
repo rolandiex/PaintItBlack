@@ -50,11 +50,11 @@ void rpc::updateDiscordPresence()
         memset(&discordPresence, 0, sizeof(discordPresence));
 
         char state_buffer[256];
-		sprintf_s(state_buffer, "Level: %d/%d", p_session.get_level(), p_session.get_joblevel());
+		sprintf_s(state_buffer, "Nivel: %d/%d", p_session.get_level(), p_session.get_joblevel());
 		discordPresence.state = state_buffer;
 
 		char name_buffer[256];
-		sprintf_s(name_buffer, "IGN: %s", p_session.get_name());
+		sprintf_s(name_buffer, "Nombre: %s", p_session.get_name());
         discordPresence.details = name_buffer;
 
         discordPresence.startTimestamp = this->StartTime;
@@ -70,7 +70,7 @@ void rpc::updateDiscordPresence()
 		discordPresence.largeImageText = large_img_txt_buffer;
 
 		char small_img_txt_buffer[256];
-        sprintf_s(small_img_txt_buffer, "Map: %s", p_session.get_cur_map());
+        sprintf_s(small_img_txt_buffer, "Mapa: %s", p_session.get_cur_map());
         discordPresence.smallImageText = small_img_txt_buffer;
 
         discordPresence.instance = 0;

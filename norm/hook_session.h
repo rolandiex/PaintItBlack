@@ -70,8 +70,8 @@ public:
 private:
 	std::map<int, job_names> job_map = {
 		{ 0, { "Novice",		"novice" } },
-		{ 1, { "Swordman",		"swordsman" } },
-		{ 2, { "Magican",		"mage" } },
+		{ 1, { "Swordman",		"swordman" } },
+		{ 2, { "Magican",		"magican" } },
 		{ 3, { "Archer",		"archer" } },
 		{ 4, { "Acolyte",		"acolyte" } },
 		{ 5, { "Merchant",		"merchant" } },
@@ -118,7 +118,7 @@ private:
 		{ 4022, { "Paladin",		"paladin" } },
 		{ 4023, { "Baby",		"novice" } },
 		{ 4024, { "Baby Swordman",	"swordman" } },
-		{ 4025, { "Baby Mage",		"mage" } },
+		{ 4025, { "Baby Mage",		"magican" } },
 		{ 4026, { "Baby Archer",	"archer" } },
 		{ 4027, { "Baby Acolyte",	"acolyte" } },
 		{ 4028, { "Baby Merchant",	"merchant" } },
